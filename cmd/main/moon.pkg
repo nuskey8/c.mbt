@@ -1,0 +1,7 @@
+// import {
+//   "nuskey8/c" @lib,
+// }
+
+options(
+  "is-main": true,
+)

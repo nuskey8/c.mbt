@@ -1,0 +1,8 @@
+options(
+  "native-stub": [ "pointer.c" ],
+  targets: {
+    "c.mbt": [ "native" ],
+    "c_types.mbt": [ "native" ],
+    "memory.mbt": [ "native" ],
+  },
+)

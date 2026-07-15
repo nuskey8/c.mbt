@@ -17,24 +17,23 @@ extern "c" fn calculate(output : @c.Pointer[@c.CDouble]) -> Int = "library_calcu
 The package provides:
 
 - `null`, `is_null`, and numeric address conversion
-- signed byte and element-offset operations
+- element-wise pointer arithmetic
 - mutable-to-read-only conversion
 - explicit `unsafe_cast` between pointee types
-- reads, writes, indexed `get_*`, and indexed `set_*` operations
+- scalar reads and writes at the pointer's current position
+- element-wise pointer arithmetic with `add` and `sub`
 - fixed-width and platform C types such as `CInt`, `CLong`, `CSize`, and
   `CPtrDiff`
 - mutable and read-only pointer-to-pointer operations
 - `memcpy`, `memmove`, and `memset`-style memory operations
 
-Every pointee marker implements `SizeOf` and `AlignOf`. Use `T::size_of()` /
-`T::align_of()` when the marker is known statically, or
-`pointer.element_size()` / `pointer.element_alignment()` when working with a
-pointer:
+Every pointee marker implements `SizeOf` and `AlignOf`. Use `T::size_of()` and
+`T::align_of()` to inspect its C layout:
 
 ```moonbit nocheck
-let second = values.offset(1L)
-let item = values.as_readonly().get_int32(1L)
-values.set_int32(1L, item + 1)
+let second = values.add(1L)
+let item = second.as_readonly().read_int32()
+second.write_int32(item + 1)
 ```
 
 Pointer-to-pointer types preserve constness at both levels:

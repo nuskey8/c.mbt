@@ -108,41 +108,15 @@ pub impl SizeOf for CVoid
 
 #external
 pub type Pointer[T]
+pub fn[T : SizeOf] Pointer::add(Self[T], Int64) -> Self[T]
 pub fn[T] Pointer::address(Self[T]) -> UInt64
 pub fn[T] Pointer::as_readonly(Self[T]) -> ReadOnlyPointer[T]
 pub fn[T, U] Pointer::copy_non_overlapping_from(Self[T], ReadOnlyPointer[U], UInt64) -> Unit
-pub fn[T : AlignOf] Pointer::element_alignment(Self[T]) -> Int64
-pub fn[T : SizeOf] Pointer::element_size(Self[T]) -> Int64
 pub fn[T] Pointer::fill(Self[T], Byte, UInt64) -> Unit
 pub fn[T] Pointer::is_null(Self[T]) -> Bool
 pub fn[T, U] Pointer::move_from(Self[T], ReadOnlyPointer[U], UInt64) -> Unit
 pub fn[T] Pointer::null() -> Self[T]
-pub fn[T : SizeOf] Pointer::offset(Self[T], Int64) -> Self[T]
-pub fn[T] Pointer::offset_bytes(Self[T], Int64) -> Self[T]
-pub fn Pointer::set_bool(Self[CBool], Int64, Bool) -> Unit
-pub fn Pointer::set_char(Self[CChar], Int64, Int) -> Unit
-pub fn Pointer::set_double(Self[CDouble], Int64, Double) -> Unit
-pub fn Pointer::set_float(Self[CFloat], Int64, Float) -> Unit
-pub fn Pointer::set_int(Self[CInt], Int64, Int) -> Unit
-pub fn Pointer::set_int16(Self[CInt16], Int64, Int) -> Unit
-pub fn Pointer::set_int32(Self[CInt32], Int64, Int) -> Unit
-pub fn Pointer::set_int64(Self[CInt64], Int64, Int64) -> Unit
-pub fn Pointer::set_int8(Self[CInt8], Int64, Int) -> Unit
-pub fn Pointer::set_long(Self[CLong], Int64, Int64) -> Unit
-pub fn Pointer::set_long_long(Self[CLongLong], Int64, Int64) -> Unit
-pub fn Pointer::set_ptrdiff(Self[CPtrDiff], Int64, Int64) -> Unit
-pub fn Pointer::set_short(Self[CShort], Int64, Int) -> Unit
-pub fn Pointer::set_signed_char(Self[CSignedChar], Int64, Int) -> Unit
-pub fn Pointer::set_size(Self[CSize], Int64, UInt64) -> Unit
-pub fn Pointer::set_uint16(Self[CUInt16], Int64, UInt) -> Unit
-pub fn Pointer::set_uint32(Self[CUInt32], Int64, UInt) -> Unit
-pub fn Pointer::set_uint64(Self[CUInt64], Int64, UInt64) -> Unit
-pub fn Pointer::set_uint8(Self[CUInt8], Int64, Byte) -> Unit
-pub fn Pointer::set_unsigned_char(Self[CUnsignedChar], Int64, Byte) -> Unit
-pub fn Pointer::set_unsigned_int(Self[CUnsignedInt], Int64, UInt) -> Unit
-pub fn Pointer::set_unsigned_long(Self[CUnsignedLong], Int64, UInt64) -> Unit
-pub fn Pointer::set_unsigned_long_long(Self[CUnsignedLongLong], Int64, UInt64) -> Unit
-pub fn Pointer::set_unsigned_short(Self[CUnsignedShort], Int64, UInt) -> Unit
+pub fn[T : SizeOf] Pointer::sub(Self[T], Int64) -> Self[T]
 pub fn[T, U] Pointer::unsafe_cast(Self[T]) -> Self[U]
 pub fn[T] Pointer::unsafe_from_address(UInt64) -> Self[T]
 pub fn Pointer::write_bool(Self[CBool], Bool) -> Unit
@@ -177,37 +151,10 @@ pub impl[T] SizeOf for Pointer[T]
 
 #external
 pub type ReadOnlyPointer[T]
+pub fn[T : SizeOf] ReadOnlyPointer::add(Self[T], Int64) -> Self[T]
 pub fn[T] ReadOnlyPointer::address(Self[T]) -> UInt64
-pub fn[T : AlignOf] ReadOnlyPointer::element_alignment(Self[T]) -> Int64
-pub fn[T : SizeOf] ReadOnlyPointer::element_size(Self[T]) -> Int64
-pub fn ReadOnlyPointer::get_bool(Self[CBool], Int64) -> Bool
-pub fn ReadOnlyPointer::get_char(Self[CChar], Int64) -> Int
-pub fn ReadOnlyPointer::get_double(Self[CDouble], Int64) -> Double
-pub fn ReadOnlyPointer::get_float(Self[CFloat], Int64) -> Float
-pub fn ReadOnlyPointer::get_int(Self[CInt], Int64) -> Int
-pub fn ReadOnlyPointer::get_int16(Self[CInt16], Int64) -> Int
-pub fn ReadOnlyPointer::get_int32(Self[CInt32], Int64) -> Int
-pub fn ReadOnlyPointer::get_int64(Self[CInt64], Int64) -> Int64
-pub fn ReadOnlyPointer::get_int8(Self[CInt8], Int64) -> Int
-pub fn ReadOnlyPointer::get_long(Self[CLong], Int64) -> Int64
-pub fn ReadOnlyPointer::get_long_long(Self[CLongLong], Int64) -> Int64
-pub fn ReadOnlyPointer::get_ptrdiff(Self[CPtrDiff], Int64) -> Int64
-pub fn ReadOnlyPointer::get_short(Self[CShort], Int64) -> Int
-pub fn ReadOnlyPointer::get_signed_char(Self[CSignedChar], Int64) -> Int
-pub fn ReadOnlyPointer::get_size(Self[CSize], Int64) -> UInt64
-pub fn ReadOnlyPointer::get_uint16(Self[CUInt16], Int64) -> UInt
-pub fn ReadOnlyPointer::get_uint32(Self[CUInt32], Int64) -> UInt
-pub fn ReadOnlyPointer::get_uint64(Self[CUInt64], Int64) -> UInt64
-pub fn ReadOnlyPointer::get_uint8(Self[CUInt8], Int64) -> Byte
-pub fn ReadOnlyPointer::get_unsigned_char(Self[CUnsignedChar], Int64) -> Byte
-pub fn ReadOnlyPointer::get_unsigned_int(Self[CUnsignedInt], Int64) -> UInt
-pub fn ReadOnlyPointer::get_unsigned_long(Self[CUnsignedLong], Int64) -> UInt64
-pub fn ReadOnlyPointer::get_unsigned_long_long(Self[CUnsignedLongLong], Int64) -> UInt64
-pub fn ReadOnlyPointer::get_unsigned_short(Self[CUnsignedShort], Int64) -> UInt
 pub fn[T] ReadOnlyPointer::is_null(Self[T]) -> Bool
 pub fn[T] ReadOnlyPointer::null() -> Self[T]
-pub fn[T : SizeOf] ReadOnlyPointer::offset(Self[T], Int64) -> Self[T]
-pub fn[T] ReadOnlyPointer::offset_bytes(Self[T], Int64) -> Self[T]
 pub fn ReadOnlyPointer::read_bool(Self[CBool]) -> Bool
 pub fn ReadOnlyPointer::read_char(Self[CChar]) -> Int
 pub fn ReadOnlyPointer::read_double(Self[CDouble]) -> Double
@@ -234,6 +181,7 @@ pub fn ReadOnlyPointer::read_unsigned_int(Self[CUnsignedInt]) -> UInt
 pub fn ReadOnlyPointer::read_unsigned_long(Self[CUnsignedLong]) -> UInt64
 pub fn ReadOnlyPointer::read_unsigned_long_long(Self[CUnsignedLongLong]) -> UInt64
 pub fn ReadOnlyPointer::read_unsigned_short(Self[CUnsignedShort]) -> UInt
+pub fn[T : SizeOf] ReadOnlyPointer::sub(Self[T], Int64) -> Self[T]
 pub fn[T, U] ReadOnlyPointer::unsafe_cast(Self[T]) -> Self[U]
 pub fn[T] ReadOnlyPointer::unsafe_from_address(UInt64) -> Self[T]
 pub impl[T] AlignOf for ReadOnlyPointer[T]

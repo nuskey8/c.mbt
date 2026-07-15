@@ -97,49 +97,47 @@ extern "c" fn sizeof_pointer_raw() -> Int64 = "c_mbt_sizeof_pointer"
 extern "c" fn alignof_raw(type_id : Int) -> Int64 = "c_mbt_alignof"
 
 ///|
-/// Returns the C storage size of this pointer's element type, in bytes.
-pub fn[T : SizeOf] Pointer::element_size(_self : Pointer[T]) -> Int64 {
-  T::size_of()
+/// Advances a mutable pointer by `count` elements.
+pub fn[T : SizeOf] Pointer::add(self : Pointer[T], count : Int64) -> Pointer[T] {
+  pointer_from_raw(
+    pointer_offset_bytes_raw(pointer_to_raw(self), count * T::size_of()),
+  )
 }
 
 ///|
-/// Returns the C storage size of this pointer's element type, in bytes.
-pub fn[T : SizeOf] ReadOnlyPointer::element_size(
-  _self : ReadOnlyPointer[T],
-) -> Int64 {
-  T::size_of()
+/// Moves a mutable pointer backward by `count` elements.
+pub fn[T : SizeOf] Pointer::sub(self : Pointer[T], count : Int64) -> Pointer[T] {
+  pointer_from_raw(
+    pointer_offset_bytes_raw(pointer_to_raw(self), -count * T::size_of()),
+  )
 }
 
 ///|
-/// Returns the required C alignment of this pointer's element type.
-pub fn[T : AlignOf] Pointer::element_alignment(_self : Pointer[T]) -> Int64 {
-  T::align_of()
-}
-
-///|
-/// Returns the required C alignment of this pointer's element type.
-pub fn[T : AlignOf] ReadOnlyPointer::element_alignment(
-  _self : ReadOnlyPointer[T],
-) -> Int64 {
-  T::align_of()
-}
-
-///|
-/// Adds a signed element offset to a mutable pointer.
-pub fn[T : SizeOf] Pointer::offset(
-  self : Pointer[T],
-  index : Int64,
-) -> Pointer[T] {
-  self.offset_bytes(index * T::size_of())
-}
-
-///|
-/// Adds a signed element offset to a read-only pointer.
-pub fn[T : SizeOf] ReadOnlyPointer::offset(
+/// Advances a read-only pointer by `count` elements.
+pub fn[T : SizeOf] ReadOnlyPointer::add(
   self : ReadOnlyPointer[T],
-  index : Int64,
+  count : Int64,
 ) -> ReadOnlyPointer[T] {
-  self.offset_bytes(index * T::size_of())
+  readonly_pointer_from_raw(
+    pointer_offset_bytes_raw(
+      readonly_pointer_to_raw(self),
+      count * T::size_of(),
+    ),
+  )
+}
+
+///|
+/// Moves a read-only pointer backward by `count` elements.
+pub fn[T : SizeOf] ReadOnlyPointer::sub(
+  self : ReadOnlyPointer[T],
+  count : Int64,
+) -> ReadOnlyPointer[T] {
+  readonly_pointer_from_raw(
+    pointer_offset_bytes_raw(
+      readonly_pointer_to_raw(self),
+      -count * T::size_of(),
+    ),
+  )
 }
 
 ///|

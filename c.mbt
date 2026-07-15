@@ -147,26 +147,6 @@ pub fn[T] ReadOnlyPointer::unsafe_from_address(
 }
 
 ///|
-/// Adds a signed byte offset to this pointer.
-pub fn[T] Pointer::offset_bytes(
-  self : Pointer[T],
-  offset : Int64,
-) -> Pointer[T] {
-  pointer_from_raw(pointer_offset_bytes_raw(pointer_to_raw(self), offset))
-}
-
-///|
-/// Adds a signed byte offset to this pointer.
-pub fn[T] ReadOnlyPointer::offset_bytes(
-  self : ReadOnlyPointer[T],
-  offset : Int64,
-) -> ReadOnlyPointer[T] {
-  readonly_pointer_from_raw(
-    pointer_offset_bytes_raw(readonly_pointer_to_raw(self), offset),
-  )
-}
-
-///|
 /// Creates a read-only view of this pointer.
 pub fn[T] Pointer::as_readonly(self : Pointer[T]) -> ReadOnlyPointer[T] {
   readonly_pointer_from_raw(pointer_to_raw(self))

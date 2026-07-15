@@ -31,9 +31,9 @@ test "mutable pointer write and read-only pointer read" {
 ///|
 test "byte offset and address round trip" {
   let first = test_int32_pointer()
-  let second = first.add(1L)
+  let second = first.add(1UL)
   second.write_int32(42)
-  assert_eq(first.as_readonly().add(1L).read_int32(), 42)
+  assert_eq(first.as_readonly().add(1UL).read_int32(), 42)
   let restored : Pointer[CInt32] = Pointer::unsafe_from_address(
     second.address(),
   )
@@ -53,13 +53,14 @@ test "pointer cast preserves address" {
 test "C type sizes and element offsets" {
   let pointer = test_int32_pointer()
   assert_eq(CInt32::size_of(), 4L)
-  assert_eq(pointer.add(1L).address() - pointer.address(), 4UL)
+  assert_eq(pointer.add(1UL).address() - pointer.address(), 4UL)
   pointer.write_int32(10)
-  pointer.add(1L).write_int32(20)
+  pointer.add(1UL).write_int32(20)
   let read_only_pointer = pointer.as_readonly()
   assert_eq(read_only_pointer.read_int32(), 10)
-  assert_eq(read_only_pointer.add(1L).read_int32(), 20)
-  assert_eq(read_only_pointer.add(1L).sub(1L).address(), pointer.address())
+  assert_eq(read_only_pointer.add(1UL).read_int32(), 20)
+  assert_eq(read_only_pointer.add(1UL).sub(1UL).address(), pointer.address())
+  assert_eq(read_only_pointer.add(1UL).offset(-1L).address(), pointer.address())
   assert_eq(CChar::size_of(), 1L)
   assert_true(CInt32::align_of() > 0L)
 }
@@ -91,18 +92,18 @@ test "fill, copy, zero, and overlapping move" {
   let bytes = test_bytes_pointer()
   bytes.fill(b'\xaa', 16UL)
   bytes.write_unsigned_char(b'\x01')
-  bytes.add(1L).write_unsigned_char(b'\x02')
-  bytes.add(2L).write_unsigned_char(b'\x03')
-  bytes.add(3L).write_unsigned_char(b'\x04')
-  bytes.add(8L).copy_non_overlapping_from(bytes.as_readonly(), 4UL)
-  assert_eq(bytes.as_readonly().add(8L).read_unsigned_char(), b'\x01')
-  assert_eq(bytes.as_readonly().add(11L).read_unsigned_char(), b'\x04')
-  bytes.add(1L).move_from(bytes.as_readonly(), 4UL)
-  assert_eq(bytes.as_readonly().add(1L).read_unsigned_char(), b'\x01')
-  assert_eq(bytes.as_readonly().add(4L).read_unsigned_char(), b'\x04')
-  bytes.add(8L).zero(4UL)
-  assert_eq(bytes.as_readonly().add(8L).read_unsigned_char(), b'\x00')
-  assert_eq(bytes.as_readonly().add(11L).read_unsigned_char(), b'\x00')
+  bytes.add(1UL).write_unsigned_char(b'\x02')
+  bytes.add(2UL).write_unsigned_char(b'\x03')
+  bytes.add(3UL).write_unsigned_char(b'\x04')
+  bytes.add(8UL).copy_non_overlapping_from(bytes.as_readonly(), 4UL)
+  assert_eq(bytes.as_readonly().add(8UL).read_unsigned_char(), b'\x01')
+  assert_eq(bytes.as_readonly().add(11UL).read_unsigned_char(), b'\x04')
+  bytes.add(1UL).move_from(bytes.as_readonly(), 4UL)
+  assert_eq(bytes.as_readonly().add(1UL).read_unsigned_char(), b'\x01')
+  assert_eq(bytes.as_readonly().add(4UL).read_unsigned_char(), b'\x04')
+  bytes.add(8UL).zero(4UL)
+  assert_eq(bytes.as_readonly().add(8UL).read_unsigned_char(), b'\x00')
+  assert_eq(bytes.as_readonly().add(11UL).read_unsigned_char(), b'\x00')
 }
 
 ///|

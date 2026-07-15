@@ -81,6 +81,20 @@ extern "c" fn pointer_offset_bytes_raw(
 ) -> Pointer[CVoid] = "c_mbt_pointer_offset_bytes"
 
 ///|
+#borrow(pointer)
+extern "c" fn pointer_add_bytes_raw(
+  pointer : Pointer[CVoid],
+  count : UInt64,
+) -> Pointer[CVoid] = "c_mbt_pointer_add_bytes"
+
+///|
+#borrow(pointer)
+extern "c" fn pointer_sub_bytes_raw(
+  pointer : Pointer[CVoid],
+  count : UInt64,
+) -> Pointer[CVoid] = "c_mbt_pointer_sub_bytes"
+
+///|
 fn[T] pointer_from_raw(pointer : Pointer[CVoid]) -> Pointer[T] = "%identity"
 
 ///|

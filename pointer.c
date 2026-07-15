@@ -69,6 +69,16 @@ MOONBIT_FFI_EXPORT void *c_mbt_pointer_offset_bytes(void *pointer,
   return (void *)((uint8_t *)pointer + offset);
 }
 
+MOONBIT_FFI_EXPORT void *c_mbt_pointer_add_bytes(void *pointer,
+                                                 uint64_t count) {
+  return (void *)((uint8_t *)pointer + count);
+}
+
+MOONBIT_FFI_EXPORT void *c_mbt_pointer_sub_bytes(void *pointer,
+                                                 uint64_t count) {
+  return (void *)((uint8_t *)pointer - count);
+}
+
 MOONBIT_FFI_EXPORT int32_t c_mbt_read_int8(const int8_t *pointer) {
   return *pointer;
 }

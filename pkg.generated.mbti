@@ -108,7 +108,7 @@ pub impl SizeOf for CVoid
 
 #external
 pub type Pointer[T]
-pub fn[T : SizeOf] Pointer::add(Self[T], Int64) -> Self[T]
+pub fn[T : SizeOf] Pointer::add(Self[T], UInt64) -> Self[T]
 pub fn[T] Pointer::address(Self[T]) -> UInt64
 pub fn[T] Pointer::as_readonly(Self[T]) -> ReadOnlyPointer[T]
 pub fn[T, U] Pointer::copy_non_overlapping_from(Self[T], ReadOnlyPointer[U], UInt64) -> Unit
@@ -116,7 +116,8 @@ pub fn[T] Pointer::fill(Self[T], Byte, UInt64) -> Unit
 pub fn[T] Pointer::is_null(Self[T]) -> Bool
 pub fn[T, U] Pointer::move_from(Self[T], ReadOnlyPointer[U], UInt64) -> Unit
 pub fn[T] Pointer::null() -> Self[T]
-pub fn[T : SizeOf] Pointer::sub(Self[T], Int64) -> Self[T]
+pub fn[T : SizeOf] Pointer::offset(Self[T], Int64) -> Self[T]
+pub fn[T : SizeOf] Pointer::sub(Self[T], UInt64) -> Self[T]
 pub fn[T, U] Pointer::unsafe_cast(Self[T]) -> Self[U]
 pub fn[T] Pointer::unsafe_from_address(UInt64) -> Self[T]
 pub fn Pointer::write_bool(Self[CBool], Bool) -> Unit
@@ -151,10 +152,11 @@ pub impl[T] SizeOf for Pointer[T]
 
 #external
 pub type ReadOnlyPointer[T]
-pub fn[T : SizeOf] ReadOnlyPointer::add(Self[T], Int64) -> Self[T]
+pub fn[T : SizeOf] ReadOnlyPointer::add(Self[T], UInt64) -> Self[T]
 pub fn[T] ReadOnlyPointer::address(Self[T]) -> UInt64
 pub fn[T] ReadOnlyPointer::is_null(Self[T]) -> Bool
 pub fn[T] ReadOnlyPointer::null() -> Self[T]
+pub fn[T : SizeOf] ReadOnlyPointer::offset(Self[T], Int64) -> Self[T]
 pub fn ReadOnlyPointer::read_bool(Self[CBool]) -> Bool
 pub fn ReadOnlyPointer::read_char(Self[CChar]) -> Int
 pub fn ReadOnlyPointer::read_double(Self[CDouble]) -> Double
@@ -181,7 +183,7 @@ pub fn ReadOnlyPointer::read_unsigned_int(Self[CUnsignedInt]) -> UInt
 pub fn ReadOnlyPointer::read_unsigned_long(Self[CUnsignedLong]) -> UInt64
 pub fn ReadOnlyPointer::read_unsigned_long_long(Self[CUnsignedLongLong]) -> UInt64
 pub fn ReadOnlyPointer::read_unsigned_short(Self[CUnsignedShort]) -> UInt
-pub fn[T : SizeOf] ReadOnlyPointer::sub(Self[T], Int64) -> Self[T]
+pub fn[T : SizeOf] ReadOnlyPointer::sub(Self[T], UInt64) -> Self[T]
 pub fn[T, U] ReadOnlyPointer::unsafe_cast(Self[T]) -> Self[U]
 pub fn[T] ReadOnlyPointer::unsafe_from_address(UInt64) -> Self[T]
 pub impl[T] AlignOf for ReadOnlyPointer[T]

@@ -97,24 +97,47 @@ extern "c" fn sizeof_pointer_raw() -> Int64 = "c_mbt_sizeof_pointer"
 extern "c" fn alignof_raw(type_id : Int) -> Int64 = "c_mbt_alignof"
 
 ///|
-/// Advances a mutable pointer by `count` elements.
-pub fn[T : SizeOf] Pointer::add(self : Pointer[T], count : Int64) -> Pointer[T] {
+/// Moves a mutable pointer by a signed element offset.
+pub fn[T : SizeOf] Pointer::offset(
+  self : Pointer[T],
+  count : Int64,
+) -> Pointer[T] {
   pointer_from_raw(
     pointer_offset_bytes_raw(pointer_to_raw(self), count * T::size_of()),
   )
 }
 
 ///|
-/// Moves a mutable pointer backward by `count` elements.
-pub fn[T : SizeOf] Pointer::sub(self : Pointer[T], count : Int64) -> Pointer[T] {
+/// Advances a mutable pointer by `count` elements.
+pub fn[T : SizeOf] Pointer::add(
+  self : Pointer[T],
+  count : UInt64,
+) -> Pointer[T] {
   pointer_from_raw(
-    pointer_offset_bytes_raw(pointer_to_raw(self), -count * T::size_of()),
+    pointer_add_bytes_raw(
+      pointer_to_raw(self),
+      count * T::size_of().reinterpret_as_uint64(),
+    ),
   )
 }
 
 ///|
-/// Advances a read-only pointer by `count` elements.
-pub fn[T : SizeOf] ReadOnlyPointer::add(
+/// Moves a mutable pointer backward by `count` elements.
+pub fn[T : SizeOf] Pointer::sub(
+  self : Pointer[T],
+  count : UInt64,
+) -> Pointer[T] {
+  pointer_from_raw(
+    pointer_sub_bytes_raw(
+      pointer_to_raw(self),
+      count * T::size_of().reinterpret_as_uint64(),
+    ),
+  )
+}
+
+///|
+/// Moves a read-only pointer by a signed element offset.
+pub fn[T : SizeOf] ReadOnlyPointer::offset(
   self : ReadOnlyPointer[T],
   count : Int64,
 ) -> ReadOnlyPointer[T] {
@@ -127,15 +150,29 @@ pub fn[T : SizeOf] ReadOnlyPointer::add(
 }
 
 ///|
+/// Advances a read-only pointer by `count` elements.
+pub fn[T : SizeOf] ReadOnlyPointer::add(
+  self : ReadOnlyPointer[T],
+  count : UInt64,
+) -> ReadOnlyPointer[T] {
+  readonly_pointer_from_raw(
+    pointer_add_bytes_raw(
+      readonly_pointer_to_raw(self),
+      count * T::size_of().reinterpret_as_uint64(),
+    ),
+  )
+}
+
+///|
 /// Moves a read-only pointer backward by `count` elements.
 pub fn[T : SizeOf] ReadOnlyPointer::sub(
   self : ReadOnlyPointer[T],
-  count : Int64,
+  count : UInt64,
 ) -> ReadOnlyPointer[T] {
   readonly_pointer_from_raw(
-    pointer_offset_bytes_raw(
+    pointer_sub_bytes_raw(
       readonly_pointer_to_raw(self),
-      -count * T::size_of(),
+      count * T::size_of().reinterpret_as_uint64(),
     ),
   )
 }

@@ -168,7 +168,7 @@ pub fn[T] ReadOnlyPointer::offset_bytes(
 
 ///|
 /// Creates a read-only view of this pointer.
-pub fn[T] Pointer::as_read_only(self : Pointer[T]) -> ReadOnlyPointer[T] {
+pub fn[T] Pointer::as_readonly(self : Pointer[T]) -> ReadOnlyPointer[T] {
   readonly_pointer_from_raw(pointer_to_raw(self))
 }
 

@@ -109,7 +109,7 @@ pub impl SizeOf for CVoid
 #external
 pub type Pointer[T]
 pub fn[T] Pointer::address(Self[T]) -> UInt64
-pub fn[T] Pointer::as_read_only(Self[T]) -> ReadOnlyPointer[T]
+pub fn[T] Pointer::as_readonly(Self[T]) -> ReadOnlyPointer[T]
 pub fn[T, U] Pointer::copy_non_overlapping_from(Self[T], ReadOnlyPointer[U], UInt64) -> Unit
 pub fn[T : AlignOf] Pointer::element_alignment(Self[T]) -> Int64
 pub fn[T : SizeOf] Pointer::element_size(Self[T]) -> Int64
@@ -158,7 +158,7 @@ pub fn Pointer::write_long(Self[CLong], Int64) -> Unit
 pub fn Pointer::write_long_long(Self[CLongLong], Int64) -> Unit
 pub fn[T] Pointer::write_pointer(Self[Self[T]], Self[T]) -> Unit
 pub fn Pointer::write_ptrdiff(Self[CPtrDiff], Int64) -> Unit
-pub fn[T] Pointer::write_read_only_pointer(Self[ReadOnlyPointer[T]], ReadOnlyPointer[T]) -> Unit
+pub fn[T] Pointer::write_readonly_pointer(Self[ReadOnlyPointer[T]], ReadOnlyPointer[T]) -> Unit
 pub fn Pointer::write_short(Self[CShort], Int) -> Unit
 pub fn Pointer::write_signed_char(Self[CSignedChar], Int) -> Unit
 pub fn Pointer::write_size(Self[CSize], UInt64) -> Unit
@@ -221,7 +221,7 @@ pub fn ReadOnlyPointer::read_long(Self[CLong]) -> Int64
 pub fn ReadOnlyPointer::read_long_long(Self[CLongLong]) -> Int64
 pub fn[T] ReadOnlyPointer::read_pointer(Self[Pointer[T]]) -> Pointer[T]
 pub fn ReadOnlyPointer::read_ptrdiff(Self[CPtrDiff]) -> Int64
-pub fn[T] ReadOnlyPointer::read_read_only_pointer(Self[Self[T]]) -> Self[T]
+pub fn[T] ReadOnlyPointer::read_readonly_pointer(Self[Self[T]]) -> Self[T]
 pub fn ReadOnlyPointer::read_short(Self[CShort]) -> Int
 pub fn ReadOnlyPointer::read_signed_char(Self[CSignedChar]) -> Int
 pub fn ReadOnlyPointer::read_size(Self[CSize]) -> UInt64

@@ -30,7 +30,7 @@ pub fn[T] Pointer::write_pointer(
 
 ///|
 /// Reads a read-only pointer through a pointer-to-pointer.
-pub fn[T] ReadOnlyPointer::read_read_only_pointer(
+pub fn[T] ReadOnlyPointer::read_readonly_pointer(
   self : ReadOnlyPointer[ReadOnlyPointer[T]],
 ) -> ReadOnlyPointer[T] {
   readonly_pointer_from_raw(read_pointer_raw(self.unsafe_cast()))
@@ -38,7 +38,7 @@ pub fn[T] ReadOnlyPointer::read_read_only_pointer(
 
 ///|
 /// Writes a read-only pointer through a pointer-to-pointer.
-pub fn[T] Pointer::write_read_only_pointer(
+pub fn[T] Pointer::write_readonly_pointer(
   self : Pointer[ReadOnlyPointer[T]],
   value : ReadOnlyPointer[T],
 ) -> Unit {

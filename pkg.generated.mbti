@@ -82,6 +82,9 @@ pub fn[T] Pointer::zero(Self[T], UInt64) -> Unit
 pub impl[T] AlignOf for Pointer[T]
 pub impl[T] SizeOf for Pointer[T]
 
+pub type PointerArray
+pub fn[T] PointerArray::as_pointer(FixedArray[Pointer[T]]) -> Pointer[Pointer[T]]
+
 #external
 pub type ReadOnlyPointer[T]
 pub fn[T : SizeOf] ReadOnlyPointer::add(Self[T], UInt64) -> Self[T]
@@ -186,6 +189,11 @@ pub(open) trait FloatArrayAsPointer {
 }
 pub impl FloatArrayAsPointer for FixedArray[Float]
 
+pub(open) trait Int16ArrayAsPointer {
+  fn as_pointer(Self) -> Pointer[Int16]
+}
+pub impl Int16ArrayAsPointer for FixedArray[Int16]
+
 pub(open) trait Int64ArrayAsPointer {
   fn as_pointer(Self) -> Pointer[Int64]
 }
@@ -209,6 +217,11 @@ pub impl SizeOf for UInt16
 pub impl SizeOf for UInt64
 pub impl SizeOf for Float
 pub impl SizeOf for Double
+
+pub(open) trait UInt16ArrayAsPointer {
+  fn as_pointer(Self) -> Pointer[UInt16]
+}
+pub impl UInt16ArrayAsPointer for FixedArray[UInt16]
 
 pub(open) trait UInt64ArrayAsPointer {
   fn as_pointer(Self) -> Pointer[UInt64]

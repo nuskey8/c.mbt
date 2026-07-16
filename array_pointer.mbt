@@ -16,6 +16,12 @@ extern "c" fn uint_array_as_pointer_raw(
 
 ///|
 #borrow(value)
+extern "c" fn byte_array_as_pointer_raw(
+  value : FixedArray[Byte],
+) -> Pointer[CUInt8] = "c_mbt_fixed_array_as_pointer"
+
+///|
+#borrow(value)
 extern "c" fn int16_array_as_pointer_raw(
   value : FixedArray[Int16],
 ) -> Pointer[CInt16] = "c_mbt_fixed_array_as_pointer"
@@ -33,6 +39,60 @@ extern "c" fn pointer_array_as_pointer_raw(
 ) -> Pointer[Pointer[Unit]] = "c_mbt_fixed_array_as_pointer"
 
 ///|
+#borrow(value)
+extern "c" fn readonly_pointer_array_as_pointer_raw(
+  value : FixedArray[ReadOnlyPointer[Unit]],
+) -> Pointer[ReadOnlyPointer[Unit]] = "c_mbt_fixed_array_as_pointer"
+
+///|
+#borrow(value)
+extern "c" fn csize_array_as_pointer_raw(
+  value : FixedArray[CSize],
+) -> Pointer[CSize] = "c_mbt_fixed_array_as_pointer"
+
+///|
+#borrow(value)
+extern "c" fn cint8_array_as_pointer_raw(
+  value : FixedArray[CInt8],
+) -> Pointer[CInt8] = "c_mbt_fixed_array_as_pointer"
+
+///|
+#borrow(value)
+extern "c" fn cbool_array_as_pointer_raw(
+  value : FixedArray[CBool],
+) -> Pointer[CBool] = "c_mbt_fixed_array_as_pointer"
+
+///|
+#borrow(value)
+extern "c" fn cchar_array_as_pointer_raw(
+  value : FixedArray[CChar],
+) -> Pointer[CChar] = "c_mbt_fixed_array_as_pointer"
+
+///|
+#borrow(value)
+extern "c" fn csigned_char_array_as_pointer_raw(
+  value : FixedArray[CSignedChar],
+) -> Pointer[CSignedChar] = "c_mbt_fixed_array_as_pointer"
+
+///|
+#borrow(value)
+extern "c" fn clong_array_as_pointer_raw(
+  value : FixedArray[CLong],
+) -> Pointer[CLong] = "c_mbt_fixed_array_as_pointer"
+
+///|
+#borrow(value)
+extern "c" fn cunsigned_long_array_as_pointer_raw(
+  value : FixedArray[CUnsignedLong],
+) -> Pointer[CUnsignedLong] = "c_mbt_fixed_array_as_pointer"
+
+///|
+#borrow(value)
+extern "c" fn cptrdiff_array_as_pointer_raw(
+  value : FixedArray[CPtrDiff],
+) -> Pointer[CPtrDiff] = "c_mbt_fixed_array_as_pointer"
+
+///|
 fn[T] erase_pointer_array(
   value : FixedArray[Pointer[T]],
 ) -> FixedArray[Pointer[Unit]] = "%identity"
@@ -41,6 +101,16 @@ fn[T] erase_pointer_array(
 fn[T] restore_pointer_array_pointer(
   value : Pointer[Pointer[Unit]],
 ) -> Pointer[Pointer[T]] = "%identity"
+
+///|
+fn[T] erase_readonly_pointer_array(
+  value : FixedArray[ReadOnlyPointer[T]],
+) -> FixedArray[ReadOnlyPointer[Unit]] = "%identity"
+
+///|
+fn[T] restore_readonly_pointer_array_pointer(
+  value : Pointer[ReadOnlyPointer[Unit]],
+) -> Pointer[ReadOnlyPointer[T]] = "%identity"
 
 ///|
 #borrow(value)
@@ -82,6 +152,11 @@ pub(open) trait UIntArrayAsPointer {
 }
 
 ///|
+pub(open) trait ByteArrayAsPointer {
+  fn as_pointer(Self) -> Pointer[CUInt8]
+}
+
+///|
 pub(open) trait Int16ArrayAsPointer {
   fn as_pointer(Self) -> Pointer[CInt16]
 }
@@ -93,6 +168,49 @@ pub(open) trait UInt16ArrayAsPointer {
 
 ///|
 pub type PointerArray
+
+///|
+pub type ReadOnlyPointerArray
+
+///|
+pub(open) trait CSizeArrayAsPointer {
+  fn as_pointer(Self) -> Pointer[CSize]
+}
+
+///|
+pub(open) trait CInt8ArrayAsPointer {
+  fn as_pointer(Self) -> Pointer[CInt8]
+}
+
+///|
+pub(open) trait CBoolArrayAsPointer {
+  fn as_pointer(Self) -> Pointer[CBool]
+}
+
+///|
+pub(open) trait CCharArrayAsPointer {
+  fn as_pointer(Self) -> Pointer[CChar]
+}
+
+///|
+pub(open) trait CSignedCharArrayAsPointer {
+  fn as_pointer(Self) -> Pointer[CSignedChar]
+}
+
+///|
+pub(open) trait CLongArrayAsPointer {
+  fn as_pointer(Self) -> Pointer[CLong]
+}
+
+///|
+pub(open) trait CUnsignedLongArrayAsPointer {
+  fn as_pointer(Self) -> Pointer[CUnsignedLong]
+}
+
+///|
+pub(open) trait CPtrDiffArrayAsPointer {
+  fn as_pointer(Self) -> Pointer[CPtrDiff]
+}
 
 ///|
 pub(open) trait Int64ArrayAsPointer {
@@ -130,6 +248,11 @@ pub impl UIntArrayAsPointer for FixedArray[UInt] with fn as_pointer(self) {
 }
 
 ///|
+pub impl ByteArrayAsPointer for FixedArray[Byte] with fn as_pointer(self) {
+  byte_array_as_pointer_raw(self)
+}
+
+///|
 pub impl Int16ArrayAsPointer for FixedArray[Int16] with fn as_pointer(self) {
   int16_array_as_pointer_raw(self)
 }
@@ -146,6 +269,61 @@ pub fn[T] PointerArray::as_pointer(
   restore_pointer_array_pointer(
     pointer_array_as_pointer_raw(erase_pointer_array(value)),
   )
+}
+
+///|
+pub fn[T] ReadOnlyPointerArray::as_pointer(
+  value : FixedArray[ReadOnlyPointer[T]],
+) -> Pointer[ReadOnlyPointer[T]] {
+  restore_readonly_pointer_array_pointer(
+    readonly_pointer_array_as_pointer_raw(erase_readonly_pointer_array(value)),
+  )
+}
+
+///|
+pub impl CSizeArrayAsPointer for FixedArray[CSize] with fn as_pointer(self) {
+  csize_array_as_pointer_raw(self)
+}
+
+///|
+pub impl CInt8ArrayAsPointer for FixedArray[CInt8] with fn as_pointer(self) {
+  cint8_array_as_pointer_raw(self)
+}
+
+///|
+pub impl CBoolArrayAsPointer for FixedArray[CBool] with fn as_pointer(self) {
+  cbool_array_as_pointer_raw(self)
+}
+
+///|
+pub impl CCharArrayAsPointer for FixedArray[CChar] with fn as_pointer(self) {
+  cchar_array_as_pointer_raw(self)
+}
+
+///|
+pub impl CSignedCharArrayAsPointer for FixedArray[CSignedChar] with fn as_pointer(
+  self,
+) {
+  csigned_char_array_as_pointer_raw(self)
+}
+
+///|
+pub impl CLongArrayAsPointer for FixedArray[CLong] with fn as_pointer(self) {
+  clong_array_as_pointer_raw(self)
+}
+
+///|
+pub impl CUnsignedLongArrayAsPointer for FixedArray[CUnsignedLong] with fn as_pointer(
+  self,
+) {
+  cunsigned_long_array_as_pointer_raw(self)
+}
+
+///|
+pub impl CPtrDiffArrayAsPointer for FixedArray[CPtrDiff] with fn as_pointer(
+  self,
+) {
+  cptrdiff_array_as_pointer_raw(self)
 }
 
 ///|

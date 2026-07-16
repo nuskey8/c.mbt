@@ -38,11 +38,18 @@ pub type CUnsignedLong
 pub impl AlignOf for CUnsignedLong
 pub impl SizeOf for CUnsignedLong
 
+pub type FuncRefArray
+pub fn[F] FuncRefArray::as_pointer(FixedArray[FuncRef[F]]) -> Pointer[FuncRef[F]]
+
+pub type FuncRefPointer
+pub fn[F] FuncRefPointer::unsafe_from_void_pointer(Pointer[Unit]) -> FuncRef[F]
+
 #external
 pub type Pointer[T]
 pub fn[T : SizeOf] Pointer::add(Self[T], UInt64) -> Self[T]
 pub fn[T] Pointer::address(Self[T]) -> UInt64
 pub fn[T] Pointer::as_readonly(Self[T]) -> ReadOnlyPointer[T]
+pub fn[T] Pointer::as_void_pointer(Self[T]) -> Self[Unit]
 pub fn[T, U] Pointer::copy_non_overlapping_from(Self[T], ReadOnlyPointer[U], UInt64) -> Unit
 pub fn[T] Pointer::fill(Self[T], Byte, UInt64) -> Unit
 pub fn[T] Pointer::is_null(Self[T]) -> Bool
@@ -89,6 +96,7 @@ pub fn[T] PointerArray::as_pointer(FixedArray[Pointer[T]]) -> Pointer[Pointer[T]
 pub type ReadOnlyPointer[T]
 pub fn[T : SizeOf] ReadOnlyPointer::add(Self[T], UInt64) -> Self[T]
 pub fn[T] ReadOnlyPointer::address(Self[T]) -> UInt64
+pub fn[T] ReadOnlyPointer::as_void_pointer(Self[T]) -> Self[Unit]
 pub fn[T] ReadOnlyPointer::is_null(Self[T]) -> Bool
 pub fn[T] ReadOnlyPointer::null() -> Self[T]
 pub fn[T : SizeOf] ReadOnlyPointer::offset(Self[T], Int64) -> Self[T]
@@ -176,6 +184,7 @@ pub impl AlignOf for UInt16
 pub impl AlignOf for UInt64
 pub impl AlignOf for Float
 pub impl AlignOf for Double
+pub impl[F] AlignOf for FuncRef[F]
 
 pub(open) trait ByteArrayAsPointer {
   fn as_pointer(Self) -> Pointer[Byte]
@@ -237,6 +246,11 @@ pub(open) trait FloatArrayAsPointer {
 }
 pub impl FloatArrayAsPointer for FixedArray[Float]
 
+pub(open) trait FuncRefAsVoidPointer {
+  fn as_void_pointer(Self) -> Pointer[Unit]
+}
+pub impl[F] FuncRefAsVoidPointer for FuncRef[F]
+
 pub(open) trait Int16ArrayAsPointer {
   fn as_pointer(Self) -> Pointer[Int16]
 }
@@ -265,6 +279,7 @@ pub impl SizeOf for UInt16
 pub impl SizeOf for UInt64
 pub impl SizeOf for Float
 pub impl SizeOf for Double
+pub impl[F] SizeOf for FuncRef[F]
 
 pub(open) trait UInt16ArrayAsPointer {
   fn as_pointer(Self) -> Pointer[UInt16]

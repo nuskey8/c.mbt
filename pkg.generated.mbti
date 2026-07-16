@@ -196,7 +196,42 @@ pub(open) trait AlignOf {
   fn align_of() -> Int64
 }
 
+pub(open) trait BytesAsPointer {
+  fn as_pointer(Self) -> Pointer[CUInt8]
+}
+pub impl BytesAsPointer for Bytes
+
+pub(open) trait DoubleArrayAsPointer {
+  fn as_pointer(Self) -> Pointer[CDouble]
+}
+pub impl DoubleArrayAsPointer for FixedArray[Double]
+
+pub(open) trait FloatArrayAsPointer {
+  fn as_pointer(Self) -> Pointer[CFloat]
+}
+pub impl FloatArrayAsPointer for FixedArray[Float]
+
+pub(open) trait Int64ArrayAsPointer {
+  fn as_pointer(Self) -> Pointer[CInt64]
+}
+pub impl Int64ArrayAsPointer for FixedArray[Int64]
+
+pub(open) trait IntArrayAsPointer {
+  fn as_pointer(Self) -> Pointer[CInt32]
+}
+pub impl IntArrayAsPointer for FixedArray[Int]
+
 pub(open) trait SizeOf {
   fn size_of() -> Int64
 }
+
+pub(open) trait UInt64ArrayAsPointer {
+  fn as_pointer(Self) -> Pointer[CUInt64]
+}
+pub impl UInt64ArrayAsPointer for FixedArray[UInt64]
+
+pub(open) trait UIntArrayAsPointer {
+  fn as_pointer(Self) -> Pointer[CUInt32]
+}
+pub impl UIntArrayAsPointer for FixedArray[UInt]
 

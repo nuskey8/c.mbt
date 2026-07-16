@@ -116,3 +116,20 @@ test "platform C scalar access" {
   size_pointer.write_size(1234UL)
   assert_eq(size_pointer.as_readonly().read_size(), 1234UL)
 }
+
+///|
+test "Bytes::as_pointer borrows its storage" {
+  let bytes = b"abc"
+  let pointer = BytesAsPointer::as_pointer(bytes)
+  assert_eq(pointer.as_readonly().read_uint8(), b'a')
+  assert_eq(pointer.add(2UL).as_readonly().read_uint8(), b'c')
+  assert_eq(bytes.length(), 3)
+}
+
+///|
+test "FixedArray::as_pointer borrows mutable storage" {
+  let values : FixedArray[Int] = [10, 20]
+  let pointer = IntArrayAsPointer::as_pointer(values)
+  pointer.add(1UL).write_int32(99)
+  assert_eq(values[1], 99)
+}

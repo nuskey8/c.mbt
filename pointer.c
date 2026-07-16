@@ -5,6 +5,14 @@
 #include <stdint.h>
 #include <string.h>
 
+MOONBIT_FFI_EXPORT uint8_t *c_mbt_bytes_as_pointer(moonbit_bytes_t bytes) {
+  return bytes;
+}
+
+MOONBIT_FFI_EXPORT void *c_mbt_fixed_array_as_pointer(void *array) {
+  return array;
+}
+
 MOONBIT_FFI_EXPORT int64_t c_mbt_sizeof_bool(void) { return sizeof(bool); }
 MOONBIT_FFI_EXPORT int64_t c_mbt_sizeof_char(void) { return sizeof(char); }
 MOONBIT_FFI_EXPORT int64_t c_mbt_sizeof_short(void) { return sizeof(short); }

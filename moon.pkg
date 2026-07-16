@@ -4,5 +4,6 @@ options(
     "c.mbt": [ "native" ],
     "c_types.mbt": [ "native" ],
     "memory.mbt": [ "native" ],
+    "array_pointer.mbt": [ "native" ],
   },
 )

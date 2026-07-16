@@ -15,7 +15,7 @@ version = "0.3.0"
 
 readme = "README.mbt.md"
 
-repository = ""
+repository = "https://github.com/nuskey8/c.mbt"
 
 license = "MIT"
 

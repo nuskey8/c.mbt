@@ -132,6 +132,32 @@ test "FixedArray::as_pointer borrows mutable storage" {
 }
 
 ///|
+test "16-bit fixed arrays expose their storage" {
+  let signed : FixedArray[Int16] = [1, 2]
+  let signed_pointer = Int16ArrayAsPointer::as_pointer(signed)
+  signed_pointer.add(1UL).write_int16(3)
+  assert_eq(signed[1], 3)
+
+  let unsigned : FixedArray[UInt16] = [4, 5]
+  let unsigned_pointer = UInt16ArrayAsPointer::as_pointer(unsigned)
+  unsigned_pointer.add(1UL).write_uint16(6)
+  assert_eq(unsigned[1], 6)
+}
+
+///|
+test "pointer fixed arrays expose T double-pointer storage" {
+  let first = test_int32_pointer()
+  let second = first.add(1UL)
+  let pointers : FixedArray[Pointer[CInt32]] = [first, second]
+  let pointer : Pointer[Pointer[CInt32]] = PointerArray::as_pointer(pointers)
+  assert_eq(pointer.as_readonly().read_pointer().address(), first.address())
+  assert_eq(
+    pointer.add(1UL).as_readonly().read_pointer().address(),
+    second.address(),
+  )
+}
+
+///|
 extern "c" fn test_cuint8_value() -> CUInt8 = "c_mbt_test_cuint8_value"
 
 ///|

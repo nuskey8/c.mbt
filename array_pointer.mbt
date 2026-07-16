@@ -16,6 +16,34 @@ extern "c" fn uint_array_as_pointer_raw(
 
 ///|
 #borrow(value)
+extern "c" fn int16_array_as_pointer_raw(
+  value : FixedArray[Int16],
+) -> Pointer[CInt16] = "c_mbt_fixed_array_as_pointer"
+
+///|
+#borrow(value)
+extern "c" fn uint16_array_as_pointer_raw(
+  value : FixedArray[UInt16],
+) -> Pointer[CUInt16] = "c_mbt_fixed_array_as_pointer"
+
+///|
+#borrow(value)
+extern "c" fn pointer_array_as_pointer_raw(
+  value : FixedArray[Pointer[Unit]],
+) -> Pointer[Pointer[Unit]] = "c_mbt_fixed_array_as_pointer"
+
+///|
+fn[T] erase_pointer_array(
+  value : FixedArray[Pointer[T]],
+) -> FixedArray[Pointer[Unit]] = "%identity"
+
+///|
+fn[T] restore_pointer_array_pointer(
+  value : Pointer[Pointer[Unit]],
+) -> Pointer[Pointer[T]] = "%identity"
+
+///|
+#borrow(value)
 extern "c" fn int64_array_as_pointer_raw(
   value : FixedArray[Int64],
 ) -> Pointer[CInt64] = "c_mbt_fixed_array_as_pointer"
@@ -54,6 +82,19 @@ pub(open) trait UIntArrayAsPointer {
 }
 
 ///|
+pub(open) trait Int16ArrayAsPointer {
+  fn as_pointer(Self) -> Pointer[CInt16]
+}
+
+///|
+pub(open) trait UInt16ArrayAsPointer {
+  fn as_pointer(Self) -> Pointer[CUInt16]
+}
+
+///|
+pub type PointerArray
+
+///|
 pub(open) trait Int64ArrayAsPointer {
   fn as_pointer(Self) -> Pointer[CInt64]
 }
@@ -86,6 +127,25 @@ pub impl IntArrayAsPointer for FixedArray[Int] with fn as_pointer(self) {
 ///|
 pub impl UIntArrayAsPointer for FixedArray[UInt] with fn as_pointer(self) {
   uint_array_as_pointer_raw(self)
+}
+
+///|
+pub impl Int16ArrayAsPointer for FixedArray[Int16] with fn as_pointer(self) {
+  int16_array_as_pointer_raw(self)
+}
+
+///|
+pub impl UInt16ArrayAsPointer for FixedArray[UInt16] with fn as_pointer(self) {
+  uint16_array_as_pointer_raw(self)
+}
+
+///|
+pub fn[T] PointerArray::as_pointer(
+  value : FixedArray[Pointer[T]],
+) -> Pointer[Pointer[T]] {
+  restore_pointer_array_pointer(
+    pointer_array_as_pointer_raw(erase_pointer_array(value)),
+  )
 }
 
 ///|

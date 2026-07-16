@@ -190,11 +190,11 @@ extern "c" fn read_uint8_raw(pointer : ReadOnlyPointer[CUInt8]) -> Byte = "c_mbt
 
 ///|
 #borrow(pointer)
-extern "c" fn read_int16_raw(pointer : ReadOnlyPointer[CInt16]) -> Int = "c_mbt_read_int16"
+extern "c" fn read_int16_raw(pointer : ReadOnlyPointer[CInt16]) -> Int16 = "c_mbt_read_int16"
 
 ///|
 #borrow(pointer)
-extern "c" fn read_uint16_raw(pointer : ReadOnlyPointer[CUInt16]) -> UInt = "c_mbt_read_uint16"
+extern "c" fn read_uint16_raw(pointer : ReadOnlyPointer[CUInt16]) -> UInt16 = "c_mbt_read_uint16"
 
 ///|
 #borrow(pointer)
@@ -234,13 +234,13 @@ pub fn ReadOnlyPointer::read_uint8(self : ReadOnlyPointer[CUInt8]) -> Byte {
 
 ///|
 /// Reads an `int16_t`. The pointer must be valid and correctly aligned.
-pub fn ReadOnlyPointer::read_int16(self : ReadOnlyPointer[CInt16]) -> Int {
+pub fn ReadOnlyPointer::read_int16(self : ReadOnlyPointer[CInt16]) -> Int16 {
   read_int16_raw(self)
 }
 
 ///|
 /// Reads a `uint16_t`. The pointer must be valid and correctly aligned.
-pub fn ReadOnlyPointer::read_uint16(self : ReadOnlyPointer[CUInt16]) -> UInt {
+pub fn ReadOnlyPointer::read_uint16(self : ReadOnlyPointer[CUInt16]) -> UInt16 {
   read_uint16_raw(self)
 }
 
@@ -290,13 +290,13 @@ extern "c" fn write_uint8_raw(pointer : Pointer[CUInt8], value : Byte) -> Unit =
 
 ///|
 #borrow(pointer)
-extern "c" fn write_int16_raw(pointer : Pointer[CInt16], value : Int) -> Unit = "c_mbt_write_int16"
+extern "c" fn write_int16_raw(pointer : Pointer[CInt16], value : Int16) -> Unit = "c_mbt_write_int16"
 
 ///|
 #borrow(pointer)
 extern "c" fn write_uint16_raw(
   pointer : Pointer[CUInt16],
-  value : UInt,
+  value : UInt16,
 ) -> Unit = "c_mbt_write_uint16"
 
 ///|
@@ -346,13 +346,13 @@ pub fn Pointer::write_uint8(self : Pointer[CUInt8], value : Byte) -> Unit {
 
 ///|
 /// Writes an `int16_t`. The pointer must be valid and correctly aligned.
-pub fn Pointer::write_int16(self : Pointer[CInt16], value : Int) -> Unit {
+pub fn Pointer::write_int16(self : Pointer[CInt16], value : Int16) -> Unit {
   write_int16_raw(self, value)
 }
 
 ///|
 /// Writes a `uint16_t`. The pointer must be valid and correctly aligned.
-pub fn Pointer::write_uint16(self : Pointer[CUInt16], value : UInt) -> Unit {
+pub fn Pointer::write_uint16(self : Pointer[CUInt16], value : UInt16) -> Unit {
   write_uint16_raw(self, value)
 }
 

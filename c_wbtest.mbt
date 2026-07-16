@@ -144,3 +144,24 @@ test "fixed-width C aliases cross FFI directly" {
   assert_eq(int32, 123)
   assert_eq(uint8, 0xff)
 }
+
+///|
+test "16-bit reads and writes preserve MoonBit value types" {
+  let signed : Pointer[CInt16] = test_bytes_pointer().unsafe_cast()
+  let signed_value = Int16::from_int(-32768)
+  signed.write_int16(signed_value)
+  let signed_result : Int16 = signed.as_readonly().read_int16()
+  assert_eq(signed_result, signed_value)
+  signed.write_short(signed_value)
+  let short_result : Int16 = signed.as_readonly().read_short()
+  assert_eq(short_result, signed_value)
+
+  let unsigned : Pointer[CUInt16] = signed.unsafe_cast()
+  let unsigned_value : UInt16 = 65535
+  unsigned.write_uint16(unsigned_value)
+  let unsigned_result : UInt16 = unsigned.as_readonly().read_uint16()
+  assert_eq(unsigned_result, unsigned_value)
+  unsigned.write_unsigned_short(unsigned_value)
+  let ushort_result : UInt16 = unsigned.as_readonly().read_unsigned_short()
+  assert_eq(ushort_result, unsigned_value)
+}

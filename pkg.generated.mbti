@@ -57,7 +57,7 @@ pub fn Pointer::write_char(Self[CChar], Int) -> Unit
 pub fn Pointer::write_double(Self[Double], Double) -> Unit
 pub fn Pointer::write_float(Self[Float], Float) -> Unit
 pub fn Pointer::write_int(Self[Int], Int) -> Unit
-pub fn Pointer::write_int16(Self[Int16], Int) -> Unit
+pub fn Pointer::write_int16(Self[Int16], Int16) -> Unit
 pub fn Pointer::write_int32(Self[Int], Int) -> Unit
 pub fn Pointer::write_int64(Self[Int64], Int64) -> Unit
 pub fn Pointer::write_int8(Self[CInt8], Int) -> Unit
@@ -66,10 +66,10 @@ pub fn Pointer::write_long_long(Self[Int64], Int64) -> Unit
 pub fn[T] Pointer::write_pointer(Self[Self[T]], Self[T]) -> Unit
 pub fn Pointer::write_ptrdiff(Self[CPtrDiff], Int64) -> Unit
 pub fn[T] Pointer::write_readonly_pointer(Self[ReadOnlyPointer[T]], ReadOnlyPointer[T]) -> Unit
-pub fn Pointer::write_short(Self[Int16], Int) -> Unit
+pub fn Pointer::write_short(Self[Int16], Int16) -> Unit
 pub fn Pointer::write_signed_char(Self[CSignedChar], Int) -> Unit
 pub fn Pointer::write_size(Self[CSize], UInt64) -> Unit
-pub fn Pointer::write_uint16(Self[UInt16], UInt) -> Unit
+pub fn Pointer::write_uint16(Self[UInt16], UInt16) -> Unit
 pub fn Pointer::write_uint32(Self[UInt], UInt) -> Unit
 pub fn Pointer::write_uint64(Self[UInt64], UInt64) -> Unit
 pub fn Pointer::write_uint8(Self[Byte], Byte) -> Unit
@@ -77,7 +77,7 @@ pub fn Pointer::write_unsigned_char(Self[Byte], Byte) -> Unit
 pub fn Pointer::write_unsigned_int(Self[UInt], UInt) -> Unit
 pub fn Pointer::write_unsigned_long(Self[CUnsignedLong], UInt64) -> Unit
 pub fn Pointer::write_unsigned_long_long(Self[UInt64], UInt64) -> Unit
-pub fn Pointer::write_unsigned_short(Self[UInt16], UInt) -> Unit
+pub fn Pointer::write_unsigned_short(Self[UInt16], UInt16) -> Unit
 pub fn[T] Pointer::zero(Self[T], UInt64) -> Unit
 pub impl[T] AlignOf for Pointer[T]
 pub impl[T] SizeOf for Pointer[T]
@@ -94,7 +94,7 @@ pub fn ReadOnlyPointer::read_char(Self[CChar]) -> Int
 pub fn ReadOnlyPointer::read_double(Self[Double]) -> Double
 pub fn ReadOnlyPointer::read_float(Self[Float]) -> Float
 pub fn ReadOnlyPointer::read_int(Self[Int]) -> Int
-pub fn ReadOnlyPointer::read_int16(Self[Int16]) -> Int
+pub fn ReadOnlyPointer::read_int16(Self[Int16]) -> Int16
 pub fn ReadOnlyPointer::read_int32(Self[Int]) -> Int
 pub fn ReadOnlyPointer::read_int64(Self[Int64]) -> Int64
 pub fn ReadOnlyPointer::read_int8(Self[CInt8]) -> Int
@@ -103,10 +103,10 @@ pub fn ReadOnlyPointer::read_long_long(Self[Int64]) -> Int64
 pub fn[T] ReadOnlyPointer::read_pointer(Self[Pointer[T]]) -> Pointer[T]
 pub fn ReadOnlyPointer::read_ptrdiff(Self[CPtrDiff]) -> Int64
 pub fn[T] ReadOnlyPointer::read_readonly_pointer(Self[Self[T]]) -> Self[T]
-pub fn ReadOnlyPointer::read_short(Self[Int16]) -> Int
+pub fn ReadOnlyPointer::read_short(Self[Int16]) -> Int16
 pub fn ReadOnlyPointer::read_signed_char(Self[CSignedChar]) -> Int
 pub fn ReadOnlyPointer::read_size(Self[CSize]) -> UInt64
-pub fn ReadOnlyPointer::read_uint16(Self[UInt16]) -> UInt
+pub fn ReadOnlyPointer::read_uint16(Self[UInt16]) -> UInt16
 pub fn ReadOnlyPointer::read_uint32(Self[UInt]) -> UInt
 pub fn ReadOnlyPointer::read_uint64(Self[UInt64]) -> UInt64
 pub fn ReadOnlyPointer::read_uint8(Self[Byte]) -> Byte
@@ -114,7 +114,7 @@ pub fn ReadOnlyPointer::read_unsigned_char(Self[Byte]) -> Byte
 pub fn ReadOnlyPointer::read_unsigned_int(Self[UInt]) -> UInt
 pub fn ReadOnlyPointer::read_unsigned_long(Self[CUnsignedLong]) -> UInt64
 pub fn ReadOnlyPointer::read_unsigned_long_long(Self[UInt64]) -> UInt64
-pub fn ReadOnlyPointer::read_unsigned_short(Self[UInt16]) -> UInt
+pub fn ReadOnlyPointer::read_unsigned_short(Self[UInt16]) -> UInt16
 pub fn[T : SizeOf] ReadOnlyPointer::sub(Self[T], UInt64) -> Self[T]
 pub fn[T, U] ReadOnlyPointer::unsafe_cast(Self[T]) -> Self[U]
 pub fn[T] ReadOnlyPointer::unsafe_from_address(UInt64) -> Self[T]

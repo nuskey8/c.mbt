@@ -98,11 +98,11 @@ MOONBIT_FFI_EXPORT uint8_t c_mbt_read_uint8(const uint8_t *pointer) {
   return *pointer;
 }
 
-MOONBIT_FFI_EXPORT int32_t c_mbt_read_int16(const int16_t *pointer) {
+MOONBIT_FFI_EXPORT int16_t c_mbt_read_int16(const int16_t *pointer) {
   return *pointer;
 }
 
-MOONBIT_FFI_EXPORT uint32_t c_mbt_read_uint16(const uint16_t *pointer) {
+MOONBIT_FFI_EXPORT uint16_t c_mbt_read_uint16(const uint16_t *pointer) {
   return *pointer;
 }
 
@@ -138,11 +138,11 @@ MOONBIT_FFI_EXPORT void c_mbt_write_uint8(uint8_t *pointer, uint8_t value) {
   *pointer = value;
 }
 
-MOONBIT_FFI_EXPORT void c_mbt_write_int16(int16_t *pointer, int32_t value) {
+MOONBIT_FFI_EXPORT void c_mbt_write_int16(int16_t *pointer, int16_t value) {
   *pointer = (int16_t)value;
 }
 
-MOONBIT_FFI_EXPORT void c_mbt_write_uint16(uint16_t *pointer, uint32_t value) {
+MOONBIT_FFI_EXPORT void c_mbt_write_uint16(uint16_t *pointer, uint16_t value) {
   *pointer = (uint16_t)value;
 }
 
@@ -207,10 +207,10 @@ MOONBIT_FFI_EXPORT uint8_t
 c_mbt_read_unsigned_char(const unsigned char *pointer) {
   return *pointer;
 }
-MOONBIT_FFI_EXPORT int32_t c_mbt_read_short(const short *pointer) {
+MOONBIT_FFI_EXPORT int16_t c_mbt_read_short(const short *pointer) {
   return *pointer;
 }
-MOONBIT_FFI_EXPORT uint32_t
+MOONBIT_FFI_EXPORT uint16_t
 c_mbt_read_unsigned_short(const unsigned short *pointer) {
   return *pointer;
 }
@@ -256,11 +256,11 @@ MOONBIT_FFI_EXPORT void c_mbt_write_unsigned_char(unsigned char *pointer,
                                                   uint8_t value) {
   *pointer = value;
 }
-MOONBIT_FFI_EXPORT void c_mbt_write_short(short *pointer, int32_t value) {
+MOONBIT_FFI_EXPORT void c_mbt_write_short(short *pointer, int16_t value) {
   *pointer = (short)value;
 }
 MOONBIT_FFI_EXPORT void c_mbt_write_unsigned_short(unsigned short *pointer,
-                                                   uint32_t value) {
+                                                    uint16_t value) {
   *pointer = (unsigned short)value;
 }
 MOONBIT_FFI_EXPORT void c_mbt_write_int(int *pointer, int32_t value) {

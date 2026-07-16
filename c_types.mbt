@@ -55,6 +55,14 @@ pub type CSize
 pub type CPtrDiff
 
 ///|
+/// Marker for C `intptr_t`.
+pub type CIntPtr
+
+///|
+/// Marker for C `uintptr_t`.
+pub type CUIntPtr
+
+///|
 /// Types with a known C storage size.
 pub(open) trait SizeOf {
   fn size_of() -> Int64
@@ -77,6 +85,12 @@ extern "c" fn sizeof_size_raw() -> Int64 = "c_mbt_sizeof_size"
 
 ///|
 extern "c" fn sizeof_ptrdiff_raw() -> Int64 = "c_mbt_sizeof_ptrdiff"
+
+///|
+extern "c" fn sizeof_intptr_raw() -> Int64 = "c_mbt_sizeof_intptr"
+
+///|
+extern "c" fn sizeof_uintptr_raw() -> Int64 = "c_mbt_sizeof_uintptr"
 
 ///|
 extern "c" fn sizeof_pointer_raw() -> Int64 = "c_mbt_sizeof_pointer"
@@ -256,6 +270,16 @@ pub impl SizeOf for CPtrDiff with fn size_of() {
 }
 
 ///|
+pub impl SizeOf for CIntPtr with fn size_of() {
+  sizeof_intptr_raw()
+}
+
+///|
+pub impl SizeOf for CUIntPtr with fn size_of() {
+  sizeof_uintptr_raw()
+}
+
+///|
 pub impl[T] SizeOf for Pointer[T] with fn size_of() {
   sizeof_pointer_raw()
 }
@@ -353,6 +377,16 @@ pub impl AlignOf for CSize with fn align_of() {
 ///|
 pub impl AlignOf for CPtrDiff with fn align_of() {
   alignof_raw(24)
+}
+
+///|
+pub impl AlignOf for CIntPtr with fn align_of() {
+  alignof_raw(26)
+}
+
+///|
+pub impl AlignOf for CUIntPtr with fn align_of() {
+  alignof_raw(27)
 }
 
 ///|

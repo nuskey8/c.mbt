@@ -41,6 +41,12 @@ MOONBIT_FFI_EXPORT int64_t c_mbt_sizeof_size(void) { return sizeof(size_t); }
 MOONBIT_FFI_EXPORT int64_t c_mbt_sizeof_ptrdiff(void) {
   return sizeof(ptrdiff_t);
 }
+MOONBIT_FFI_EXPORT int64_t c_mbt_sizeof_intptr(void) {
+  return sizeof(intptr_t);
+}
+MOONBIT_FFI_EXPORT int64_t c_mbt_sizeof_uintptr(void) {
+  return sizeof(uintptr_t);
+}
 MOONBIT_FFI_EXPORT int64_t c_mbt_sizeof_pointer(void) { return sizeof(void *); }
 
 MOONBIT_FFI_EXPORT int64_t c_mbt_alignof(int32_t type_id) {
@@ -70,6 +76,8 @@ MOONBIT_FFI_EXPORT int64_t c_mbt_alignof(int32_t type_id) {
   case 23: return _Alignof(size_t);
   case 24: return _Alignof(ptrdiff_t);
   case 25: return _Alignof(void *);
+  case 26: return _Alignof(intptr_t);
+  case 27: return _Alignof(uintptr_t);
   default: return 1;
   }
 }
@@ -254,6 +262,12 @@ MOONBIT_FFI_EXPORT uint64_t c_mbt_read_size(const size_t *pointer) {
 MOONBIT_FFI_EXPORT int64_t c_mbt_read_ptrdiff(const ptrdiff_t *pointer) {
   return *pointer;
 }
+MOONBIT_FFI_EXPORT int64_t c_mbt_read_intptr(const intptr_t *pointer) {
+  return (int64_t)*pointer;
+}
+MOONBIT_FFI_EXPORT uint64_t c_mbt_read_uintptr(const uintptr_t *pointer) {
+  return (uint64_t)*pointer;
+}
 
 MOONBIT_FFI_EXPORT void c_mbt_write_bool(bool *pointer, int32_t value) {
   *pointer = value != 0;
@@ -303,6 +317,13 @@ MOONBIT_FFI_EXPORT void c_mbt_write_size(size_t *pointer, uint64_t value) {
 }
 MOONBIT_FFI_EXPORT void c_mbt_write_ptrdiff(ptrdiff_t *pointer, int64_t value) {
   *pointer = (ptrdiff_t)value;
+}
+MOONBIT_FFI_EXPORT void c_mbt_write_intptr(intptr_t *pointer, int64_t value) {
+  *pointer = (intptr_t)value;
+}
+MOONBIT_FFI_EXPORT void c_mbt_write_uintptr(uintptr_t *pointer,
+                                            uint64_t value) {
+  *pointer = (uintptr_t)value;
 }
 
 static int32_t c_mbt_test_int32_values[2];

@@ -180,6 +180,14 @@ extern "c" fn read_size_raw(pointer : ReadOnlyPointer[CSize]) -> UInt64 = "c_mbt
 extern "c" fn read_ptrdiff_raw(pointer : ReadOnlyPointer[CPtrDiff]) -> Int64 = "c_mbt_read_ptrdiff"
 
 ///|
+#borrow(pointer)
+extern "c" fn read_intptr_raw(pointer : ReadOnlyPointer[CIntPtr]) -> Int64 = "c_mbt_read_intptr"
+
+///|
+#borrow(pointer)
+extern "c" fn read_uintptr_raw(pointer : ReadOnlyPointer[CUIntPtr]) -> UInt64 = "c_mbt_read_uintptr"
+
+///|
 pub fn ReadOnlyPointer::read_bool(self : ReadOnlyPointer[CBool]) -> Bool {
   read_bool_raw(self)
 }
@@ -264,6 +272,18 @@ pub fn ReadOnlyPointer::read_ptrdiff(self : ReadOnlyPointer[CPtrDiff]) -> Int64 
 }
 
 ///|
+pub fn ReadOnlyPointer::read_intptr(self : ReadOnlyPointer[CIntPtr]) -> Int64 {
+  read_intptr_raw(self)
+}
+
+///|
+pub fn ReadOnlyPointer::read_uintptr(
+  self : ReadOnlyPointer[CUIntPtr],
+) -> UInt64 {
+  read_uintptr_raw(self)
+}
+
+///|
 #borrow(pointer)
 extern "c" fn write_bool_raw(pointer : Pointer[CBool], value : Bool) -> Unit = "c_mbt_write_bool"
 
@@ -342,6 +362,20 @@ extern "c" fn write_ptrdiff_raw(
   pointer : Pointer[CPtrDiff],
   value : Int64,
 ) -> Unit = "c_mbt_write_ptrdiff"
+
+///|
+#borrow(pointer)
+extern "c" fn write_intptr_raw(
+  pointer : Pointer[CIntPtr],
+  value : Int64,
+) -> Unit = "c_mbt_write_intptr"
+
+///|
+#borrow(pointer)
+extern "c" fn write_uintptr_raw(
+  pointer : Pointer[CUIntPtr],
+  value : UInt64,
+) -> Unit = "c_mbt_write_uintptr"
 
 ///|
 pub fn Pointer::write_bool(self : Pointer[CBool], value : Bool) -> Unit {
@@ -432,4 +466,14 @@ pub fn Pointer::write_size(self : Pointer[CSize], value : UInt64) -> Unit {
 ///|
 pub fn Pointer::write_ptrdiff(self : Pointer[CPtrDiff], value : Int64) -> Unit {
   write_ptrdiff_raw(self, value)
+}
+
+///|
+pub fn Pointer::write_intptr(self : Pointer[CIntPtr], value : Int64) -> Unit {
+  write_intptr_raw(self, value)
+}
+
+///|
+pub fn Pointer::write_uintptr(self : Pointer[CUIntPtr], value : UInt64) -> Unit {
+  write_uintptr_raw(self, value)
 }

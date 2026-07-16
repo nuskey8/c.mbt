@@ -137,6 +137,8 @@ Fixed-width markers include `CInt8`, `CUInt8`, `CInt16`, `CUInt16`, `CInt32`,
 | `long long`      | `CLongLong` | `Int64`       |
 | `size_t`         | `CSize`     | `UInt64`      |
 | `ptrdiff_t`      | `CPtrDiff`  | `Int64`       |
+| `intptr_t`       | `CIntPtr`   | `Int64`       |
+| `uintptr_t`      | `CUIntPtr`  | `UInt64`      |
 | `float`          | `CFloat`    | `Float`       |
 | `double`         | `CDouble`   | `Double`      |
 

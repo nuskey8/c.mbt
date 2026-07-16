@@ -222,6 +222,16 @@ fn int64_array_as_cptrdiff_array(
 ) -> FixedArray[CPtrDiff] = "%identity"
 
 ///|
+fn int64_array_as_cintptr_array(
+  value : FixedArray[Int64],
+) -> FixedArray[CIntPtr] = "%identity"
+
+///|
+fn uint64_array_as_cuintptr_array(
+  value : FixedArray[UInt64],
+) -> FixedArray[CUIntPtr] = "%identity"
+
+///|
 test "opaque C scalar fixed arrays expose their storage" {
   let int8 = CInt8ArrayAsPointer::as_pointer(byte_array_as_cint8_array([0xff]))
   assert_eq(int8.as_readonly().read_int8(), -1)
@@ -249,6 +259,31 @@ test "opaque C scalar fixed arrays expose their storage" {
     int64_array_as_cptrdiff_array([-44L]),
   )
   assert_eq(ptrdiff.as_readonly().read_ptrdiff(), -44L)
+
+  let intptr = CIntPtrArrayAsPointer::as_pointer(
+    int64_array_as_cintptr_array([-45L]),
+  )
+  assert_eq(intptr.as_readonly().read_intptr(), -45L)
+
+  let uintptr = CUIntPtrArrayAsPointer::as_pointer(
+    uint64_array_as_cuintptr_array([46UL]),
+  )
+  assert_eq(uintptr.as_readonly().read_uintptr(), 46UL)
+}
+
+///|
+test "pointer-sized integer layout and access" {
+  assert_eq(CIntPtr::size_of(), CUIntPtr::size_of())
+  assert_true(CIntPtr::align_of() > 0L)
+  assert_true(CUIntPtr::align_of() > 0L)
+
+  let intptr : Pointer[CIntPtr] = test_bytes_pointer().unsafe_cast()
+  intptr.write_intptr(-123L)
+  assert_eq(intptr.as_readonly().read_intptr(), -123L)
+
+  let uintptr : Pointer[CUIntPtr] = test_bytes_pointer().unsafe_cast()
+  uintptr.write_uintptr(456UL)
+  assert_eq(uintptr.as_readonly().read_uintptr(), 456UL)
 }
 
 ///|

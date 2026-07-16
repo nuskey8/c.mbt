@@ -133,13 +133,13 @@ extern "c" fn read_unsigned_char_raw(
 
 ///|
 #borrow(pointer)
-extern "c" fn read_short_raw(pointer : ReadOnlyPointer[CShort]) -> Int = "c_mbt_read_short"
+extern "c" fn read_short_raw(pointer : ReadOnlyPointer[CShort]) -> Int16 = "c_mbt_read_short"
 
 ///|
 #borrow(pointer)
 extern "c" fn read_unsigned_short_raw(
   pointer : ReadOnlyPointer[CUnsignedShort],
-) -> UInt = "c_mbt_read_unsigned_short"
+) -> UInt16 = "c_mbt_read_unsigned_short"
 
 ///|
 #borrow(pointer)
@@ -204,14 +204,14 @@ pub fn ReadOnlyPointer::read_unsigned_char(
 }
 
 ///|
-pub fn ReadOnlyPointer::read_short(self : ReadOnlyPointer[CShort]) -> Int {
+pub fn ReadOnlyPointer::read_short(self : ReadOnlyPointer[CShort]) -> Int16 {
   read_short_raw(self)
 }
 
 ///|
 pub fn ReadOnlyPointer::read_unsigned_short(
   self : ReadOnlyPointer[CUnsignedShort],
-) -> UInt {
+) -> UInt16 {
   read_unsigned_short_raw(self)
 }
 
@@ -287,13 +287,13 @@ extern "c" fn write_unsigned_char_raw(
 
 ///|
 #borrow(pointer)
-extern "c" fn write_short_raw(pointer : Pointer[CShort], value : Int) -> Unit = "c_mbt_write_short"
+extern "c" fn write_short_raw(pointer : Pointer[CShort], value : Int16) -> Unit = "c_mbt_write_short"
 
 ///|
 #borrow(pointer)
 extern "c" fn write_unsigned_short_raw(
   pointer : Pointer[CUnsignedShort],
-  value : UInt,
+  value : UInt16,
 ) -> Unit = "c_mbt_write_unsigned_short"
 
 ///|
@@ -370,14 +370,14 @@ pub fn Pointer::write_unsigned_char(
 }
 
 ///|
-pub fn Pointer::write_short(self : Pointer[CShort], value : Int) -> Unit {
+pub fn Pointer::write_short(self : Pointer[CShort], value : Int16) -> Unit {
   write_short_raw(self, value)
 }
 
 ///|
 pub fn Pointer::write_unsigned_short(
   self : Pointer[CUnsignedShort],
-  value : UInt,
+  value : UInt16,
 ) -> Unit {
   write_unsigned_short_raw(self, value)
 }

@@ -192,7 +192,7 @@ pub(open) trait ByteArrayAsPointer {
 pub impl ByteArrayAsPointer for FixedArray[Byte]
 
 pub(open) trait BytesAsPointer {
-  fn as_pointer(Self) -> Pointer[Byte]
+  fn as_pointer(Self) -> ReadOnlyPointer[Byte]
 }
 pub impl BytesAsPointer for Bytes
 

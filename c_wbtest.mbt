@@ -117,9 +117,9 @@ test "platform C scalar access" {
 ///|
 test "Bytes::as_pointer borrows its storage" {
   let bytes = b"abc"
-  let pointer = BytesAsPointer::as_pointer(bytes)
-  assert_eq(pointer.as_readonly().read_uint8(), b'a')
-  assert_eq(pointer.add(2UL).as_readonly().read_uint8(), b'c')
+  let pointer : ReadOnlyPointer[CUInt8] = BytesAsPointer::as_pointer(bytes)
+  assert_eq(pointer.read_uint8(), b'a')
+  assert_eq(pointer.add(2UL).read_uint8(), b'c')
   assert_eq(bytes.length(), 3)
 }
 

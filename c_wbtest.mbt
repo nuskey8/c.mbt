@@ -258,6 +258,50 @@ extern "c" fn test_cuint8_value() -> CUInt8 = "c_mbt_test_cuint8_value"
 extern "c" fn test_cint32_value() -> CInt32 = "c_mbt_test_cint32_value"
 
 ///|
+extern "c" fn test_function_pointer_as_void_pointer(
+  function : FuncRef[(Int) -> Int],
+) -> Pointer[CVoid] = "c_mbt_test_function_pointer_as_void_pointer"
+
+///|
+extern "c" fn test_call_function_pointer_array(
+  functions : Pointer[FuncRef[(Int) -> Int]],
+  index : Int,
+  value : Int,
+) -> Int = "c_mbt_test_call_function_pointer_array"
+
+///|
+test "FuncRef::as_void_pointer preserves the function address" {
+  let function : FuncRef[(Int) -> Int] = fn(value) { value + 1 }
+  let pointer = FuncRefAsVoidPointer::as_void_pointer(function)
+  assert_eq(
+    pointer.address(),
+    test_function_pointer_as_void_pointer(function).address(),
+  )
+  let restored : FuncRef[(Int) -> Int] = FuncRefPointer::unsafe_from_void_pointer(
+    pointer,
+  )
+  assert_eq(restored(41), 42)
+}
+
+///|
+test "all pointer kinds can be viewed as void pointers" {
+  let pointer = test_int32_pointer()
+  assert_eq(pointer.as_void_pointer().address(), pointer.address())
+  let read_only = pointer.as_readonly()
+  assert_eq(read_only.as_void_pointer().address(), read_only.address())
+}
+
+///|
+test "FuncRef fixed arrays expose function-pointer storage" {
+  let increment : FuncRef[(Int) -> Int] = fn(value) { value + 1 }
+  let double : FuncRef[(Int) -> Int] = fn(value) { value * 2 }
+  let functions : FixedArray[FuncRef[(Int) -> Int]] = [increment, double]
+  let pointer = FuncRefArray::as_pointer(functions)
+  assert_eq(test_call_function_pointer_array(pointer, 0, 41), 42)
+  assert_eq(test_call_function_pointer_array(pointer, 1, 21), 42)
+}
+
+///|
 test "fixed-width C aliases cross FFI directly" {
   let int32 : Int = test_cint32_value()
   let uint8 : Byte = test_cuint8_value()

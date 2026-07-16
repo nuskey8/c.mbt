@@ -142,6 +142,18 @@ pub fn[T] ReadOnlyPointer::address(self : ReadOnlyPointer[T]) -> UInt64 {
   pointer_address_raw(readonly_pointer_to_raw(self))
 }
 
+///|
+/// Reinterprets this pointer as a mutable pointer to `void`.
+pub fn[T] Pointer::as_void_pointer(self : Pointer[T]) -> Pointer[CVoid] {
+  pointer_to_raw(self)
+}
+
+///|
+/// Reinterprets this pointer as a read-only pointer to `void`.
+pub fn[T] ReadOnlyPointer::as_void_pointer(
+  self : ReadOnlyPointer[T],
+) -> ReadOnlyPointer[CVoid] = "%identity"
+
 ///| Constructs a mutable pointer from a numeric address.
 
 ///|

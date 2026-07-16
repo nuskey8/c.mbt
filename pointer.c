@@ -16,6 +16,18 @@ MOONBIT_FFI_EXPORT void *c_mbt_fixed_array_as_pointer(void *array) {
   return array;
 }
 
+typedef int32_t (*c_mbt_test_function_pointer)(int32_t);
+
+MOONBIT_FFI_EXPORT void *c_mbt_test_function_pointer_as_void_pointer(
+    c_mbt_test_function_pointer function) {
+  return (void *)function;
+}
+
+MOONBIT_FFI_EXPORT int32_t c_mbt_test_call_function_pointer_array(
+    c_mbt_test_function_pointer *functions, int32_t index, int32_t value) {
+  return functions[index](value);
+}
+
 MOONBIT_FFI_EXPORT int64_t c_mbt_sizeof_bool(void) { return sizeof(bool); }
 MOONBIT_FFI_EXPORT int64_t c_mbt_sizeof_char(void) { return sizeof(char); }
 MOONBIT_FFI_EXPORT int64_t c_mbt_sizeof_short(void) { return sizeof(short); }

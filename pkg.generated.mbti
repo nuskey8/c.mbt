@@ -124,6 +124,9 @@ pub fn[T] ReadOnlyPointer::unsafe_from_address(UInt64) -> Self[T]
 pub impl[T] AlignOf for ReadOnlyPointer[T]
 pub impl[T] SizeOf for ReadOnlyPointer[T]
 
+pub type ReadOnlyPointerArray
+pub fn[T] ReadOnlyPointerArray::as_pointer(FixedArray[ReadOnlyPointer[T]]) -> Pointer[ReadOnlyPointer[T]]
+
 // Type aliases
 pub type CDouble = Double
 
@@ -174,10 +177,55 @@ pub impl AlignOf for UInt64
 pub impl AlignOf for Float
 pub impl AlignOf for Double
 
+pub(open) trait ByteArrayAsPointer {
+  fn as_pointer(Self) -> Pointer[Byte]
+}
+pub impl ByteArrayAsPointer for FixedArray[Byte]
+
 pub(open) trait BytesAsPointer {
   fn as_pointer(Self) -> Pointer[Byte]
 }
 pub impl BytesAsPointer for Bytes
+
+pub(open) trait CBoolArrayAsPointer {
+  fn as_pointer(Self) -> Pointer[CBool]
+}
+pub impl CBoolArrayAsPointer for FixedArray[CBool]
+
+pub(open) trait CCharArrayAsPointer {
+  fn as_pointer(Self) -> Pointer[CChar]
+}
+pub impl CCharArrayAsPointer for FixedArray[CChar]
+
+pub(open) trait CInt8ArrayAsPointer {
+  fn as_pointer(Self) -> Pointer[CInt8]
+}
+pub impl CInt8ArrayAsPointer for FixedArray[CInt8]
+
+pub(open) trait CLongArrayAsPointer {
+  fn as_pointer(Self) -> Pointer[CLong]
+}
+pub impl CLongArrayAsPointer for FixedArray[CLong]
+
+pub(open) trait CPtrDiffArrayAsPointer {
+  fn as_pointer(Self) -> Pointer[CPtrDiff]
+}
+pub impl CPtrDiffArrayAsPointer for FixedArray[CPtrDiff]
+
+pub(open) trait CSignedCharArrayAsPointer {
+  fn as_pointer(Self) -> Pointer[CSignedChar]
+}
+pub impl CSignedCharArrayAsPointer for FixedArray[CSignedChar]
+
+pub(open) trait CSizeArrayAsPointer {
+  fn as_pointer(Self) -> Pointer[CSize]
+}
+pub impl CSizeArrayAsPointer for FixedArray[CSize]
+
+pub(open) trait CUnsignedLongArrayAsPointer {
+  fn as_pointer(Self) -> Pointer[CUnsignedLong]
+}
+pub impl CUnsignedLongArrayAsPointer for FixedArray[CUnsignedLong]
 
 pub(open) trait DoubleArrayAsPointer {
   fn as_pointer(Self) -> Pointer[Double]

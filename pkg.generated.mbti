@@ -14,30 +14,6 @@ pub type CChar
 pub impl AlignOf for CChar
 pub impl SizeOf for CChar
 
-pub type CDouble
-pub impl AlignOf for CDouble
-pub impl SizeOf for CDouble
-
-pub type CFloat
-pub impl AlignOf for CFloat
-pub impl SizeOf for CFloat
-
-pub type CInt
-pub impl AlignOf for CInt
-pub impl SizeOf for CInt
-
-pub type CInt16
-pub impl AlignOf for CInt16
-pub impl SizeOf for CInt16
-
-pub type CInt32
-pub impl AlignOf for CInt32
-pub impl SizeOf for CInt32
-
-pub type CInt64
-pub impl AlignOf for CInt64
-pub impl SizeOf for CInt64
-
 pub type CInt8
 pub impl AlignOf for CInt8
 pub impl SizeOf for CInt8
@@ -46,17 +22,9 @@ pub type CLong
 pub impl AlignOf for CLong
 pub impl SizeOf for CLong
 
-pub type CLongLong
-pub impl AlignOf for CLongLong
-pub impl SizeOf for CLongLong
-
 pub type CPtrDiff
 pub impl AlignOf for CPtrDiff
 pub impl SizeOf for CPtrDiff
-
-pub type CShort
-pub impl AlignOf for CShort
-pub impl SizeOf for CShort
 
 pub type CSignedChar
 pub impl AlignOf for CSignedChar
@@ -66,45 +34,9 @@ pub type CSize
 pub impl AlignOf for CSize
 pub impl SizeOf for CSize
 
-pub type CUInt16
-pub impl AlignOf for CUInt16
-pub impl SizeOf for CUInt16
-
-pub type CUInt32
-pub impl AlignOf for CUInt32
-pub impl SizeOf for CUInt32
-
-pub type CUInt64
-pub impl AlignOf for CUInt64
-pub impl SizeOf for CUInt64
-
-pub type CUInt8
-pub impl AlignOf for CUInt8
-pub impl SizeOf for CUInt8
-
-pub type CUnsignedChar
-pub impl AlignOf for CUnsignedChar
-pub impl SizeOf for CUnsignedChar
-
-pub type CUnsignedInt
-pub impl AlignOf for CUnsignedInt
-pub impl SizeOf for CUnsignedInt
-
 pub type CUnsignedLong
 pub impl AlignOf for CUnsignedLong
 pub impl SizeOf for CUnsignedLong
-
-pub type CUnsignedLongLong
-pub impl AlignOf for CUnsignedLongLong
-pub impl SizeOf for CUnsignedLongLong
-
-pub type CUnsignedShort
-pub impl AlignOf for CUnsignedShort
-pub impl SizeOf for CUnsignedShort
-
-pub type CVoid
-pub impl AlignOf for CVoid
-pub impl SizeOf for CVoid
 
 #external
 pub type Pointer[T]
@@ -122,30 +54,30 @@ pub fn[T, U] Pointer::unsafe_cast(Self[T]) -> Self[U]
 pub fn[T] Pointer::unsafe_from_address(UInt64) -> Self[T]
 pub fn Pointer::write_bool(Self[CBool], Bool) -> Unit
 pub fn Pointer::write_char(Self[CChar], Int) -> Unit
-pub fn Pointer::write_double(Self[CDouble], Double) -> Unit
-pub fn Pointer::write_float(Self[CFloat], Float) -> Unit
-pub fn Pointer::write_int(Self[CInt], Int) -> Unit
-pub fn Pointer::write_int16(Self[CInt16], Int) -> Unit
-pub fn Pointer::write_int32(Self[CInt32], Int) -> Unit
-pub fn Pointer::write_int64(Self[CInt64], Int64) -> Unit
+pub fn Pointer::write_double(Self[Double], Double) -> Unit
+pub fn Pointer::write_float(Self[Float], Float) -> Unit
+pub fn Pointer::write_int(Self[Int], Int) -> Unit
+pub fn Pointer::write_int16(Self[Int16], Int) -> Unit
+pub fn Pointer::write_int32(Self[Int], Int) -> Unit
+pub fn Pointer::write_int64(Self[Int64], Int64) -> Unit
 pub fn Pointer::write_int8(Self[CInt8], Int) -> Unit
 pub fn Pointer::write_long(Self[CLong], Int64) -> Unit
-pub fn Pointer::write_long_long(Self[CLongLong], Int64) -> Unit
+pub fn Pointer::write_long_long(Self[Int64], Int64) -> Unit
 pub fn[T] Pointer::write_pointer(Self[Self[T]], Self[T]) -> Unit
 pub fn Pointer::write_ptrdiff(Self[CPtrDiff], Int64) -> Unit
 pub fn[T] Pointer::write_readonly_pointer(Self[ReadOnlyPointer[T]], ReadOnlyPointer[T]) -> Unit
-pub fn Pointer::write_short(Self[CShort], Int) -> Unit
+pub fn Pointer::write_short(Self[Int16], Int) -> Unit
 pub fn Pointer::write_signed_char(Self[CSignedChar], Int) -> Unit
 pub fn Pointer::write_size(Self[CSize], UInt64) -> Unit
-pub fn Pointer::write_uint16(Self[CUInt16], UInt) -> Unit
-pub fn Pointer::write_uint32(Self[CUInt32], UInt) -> Unit
-pub fn Pointer::write_uint64(Self[CUInt64], UInt64) -> Unit
-pub fn Pointer::write_uint8(Self[CUInt8], Byte) -> Unit
-pub fn Pointer::write_unsigned_char(Self[CUnsignedChar], Byte) -> Unit
-pub fn Pointer::write_unsigned_int(Self[CUnsignedInt], UInt) -> Unit
+pub fn Pointer::write_uint16(Self[UInt16], UInt) -> Unit
+pub fn Pointer::write_uint32(Self[UInt], UInt) -> Unit
+pub fn Pointer::write_uint64(Self[UInt64], UInt64) -> Unit
+pub fn Pointer::write_uint8(Self[Byte], Byte) -> Unit
+pub fn Pointer::write_unsigned_char(Self[Byte], Byte) -> Unit
+pub fn Pointer::write_unsigned_int(Self[UInt], UInt) -> Unit
 pub fn Pointer::write_unsigned_long(Self[CUnsignedLong], UInt64) -> Unit
-pub fn Pointer::write_unsigned_long_long(Self[CUnsignedLongLong], UInt64) -> Unit
-pub fn Pointer::write_unsigned_short(Self[CUnsignedShort], UInt) -> Unit
+pub fn Pointer::write_unsigned_long_long(Self[UInt64], UInt64) -> Unit
+pub fn Pointer::write_unsigned_short(Self[UInt16], UInt) -> Unit
 pub fn[T] Pointer::zero(Self[T], UInt64) -> Unit
 pub impl[T] AlignOf for Pointer[T]
 pub impl[T] SizeOf for Pointer[T]
@@ -159,30 +91,30 @@ pub fn[T] ReadOnlyPointer::null() -> Self[T]
 pub fn[T : SizeOf] ReadOnlyPointer::offset(Self[T], Int64) -> Self[T]
 pub fn ReadOnlyPointer::read_bool(Self[CBool]) -> Bool
 pub fn ReadOnlyPointer::read_char(Self[CChar]) -> Int
-pub fn ReadOnlyPointer::read_double(Self[CDouble]) -> Double
-pub fn ReadOnlyPointer::read_float(Self[CFloat]) -> Float
-pub fn ReadOnlyPointer::read_int(Self[CInt]) -> Int
-pub fn ReadOnlyPointer::read_int16(Self[CInt16]) -> Int
-pub fn ReadOnlyPointer::read_int32(Self[CInt32]) -> Int
-pub fn ReadOnlyPointer::read_int64(Self[CInt64]) -> Int64
+pub fn ReadOnlyPointer::read_double(Self[Double]) -> Double
+pub fn ReadOnlyPointer::read_float(Self[Float]) -> Float
+pub fn ReadOnlyPointer::read_int(Self[Int]) -> Int
+pub fn ReadOnlyPointer::read_int16(Self[Int16]) -> Int
+pub fn ReadOnlyPointer::read_int32(Self[Int]) -> Int
+pub fn ReadOnlyPointer::read_int64(Self[Int64]) -> Int64
 pub fn ReadOnlyPointer::read_int8(Self[CInt8]) -> Int
 pub fn ReadOnlyPointer::read_long(Self[CLong]) -> Int64
-pub fn ReadOnlyPointer::read_long_long(Self[CLongLong]) -> Int64
+pub fn ReadOnlyPointer::read_long_long(Self[Int64]) -> Int64
 pub fn[T] ReadOnlyPointer::read_pointer(Self[Pointer[T]]) -> Pointer[T]
 pub fn ReadOnlyPointer::read_ptrdiff(Self[CPtrDiff]) -> Int64
 pub fn[T] ReadOnlyPointer::read_readonly_pointer(Self[Self[T]]) -> Self[T]
-pub fn ReadOnlyPointer::read_short(Self[CShort]) -> Int
+pub fn ReadOnlyPointer::read_short(Self[Int16]) -> Int
 pub fn ReadOnlyPointer::read_signed_char(Self[CSignedChar]) -> Int
 pub fn ReadOnlyPointer::read_size(Self[CSize]) -> UInt64
-pub fn ReadOnlyPointer::read_uint16(Self[CUInt16]) -> UInt
-pub fn ReadOnlyPointer::read_uint32(Self[CUInt32]) -> UInt
-pub fn ReadOnlyPointer::read_uint64(Self[CUInt64]) -> UInt64
-pub fn ReadOnlyPointer::read_uint8(Self[CUInt8]) -> Byte
-pub fn ReadOnlyPointer::read_unsigned_char(Self[CUnsignedChar]) -> Byte
-pub fn ReadOnlyPointer::read_unsigned_int(Self[CUnsignedInt]) -> UInt
+pub fn ReadOnlyPointer::read_uint16(Self[UInt16]) -> UInt
+pub fn ReadOnlyPointer::read_uint32(Self[UInt]) -> UInt
+pub fn ReadOnlyPointer::read_uint64(Self[UInt64]) -> UInt64
+pub fn ReadOnlyPointer::read_uint8(Self[Byte]) -> Byte
+pub fn ReadOnlyPointer::read_unsigned_char(Self[Byte]) -> Byte
+pub fn ReadOnlyPointer::read_unsigned_int(Self[UInt]) -> UInt
 pub fn ReadOnlyPointer::read_unsigned_long(Self[CUnsignedLong]) -> UInt64
-pub fn ReadOnlyPointer::read_unsigned_long_long(Self[CUnsignedLongLong]) -> UInt64
-pub fn ReadOnlyPointer::read_unsigned_short(Self[CUnsignedShort]) -> UInt
+pub fn ReadOnlyPointer::read_unsigned_long_long(Self[UInt64]) -> UInt64
+pub fn ReadOnlyPointer::read_unsigned_short(Self[UInt16]) -> UInt
 pub fn[T : SizeOf] ReadOnlyPointer::sub(Self[T], UInt64) -> Self[T]
 pub fn[T, U] ReadOnlyPointer::unsafe_cast(Self[T]) -> Self[U]
 pub fn[T] ReadOnlyPointer::unsafe_from_address(UInt64) -> Self[T]
@@ -190,48 +122,101 @@ pub impl[T] AlignOf for ReadOnlyPointer[T]
 pub impl[T] SizeOf for ReadOnlyPointer[T]
 
 // Type aliases
+pub type CDouble = Double
+
+pub type CFloat = Float
+
+pub type CInt = Int
+
+pub type CInt16 = Int16
+
+pub type CInt32 = Int
+
+pub type CInt64 = Int64
+
+pub type CLongLong = Int64
+
+pub type CShort = Int16
+
+pub type CUInt16 = UInt16
+
+pub type CUInt32 = UInt
+
+pub type CUInt64 = UInt64
+
+pub type CUInt8 = Byte
+
+pub type CUnsignedChar = Byte
+
+pub type CUnsignedInt = UInt
+
+pub type CUnsignedLongLong = UInt64
+
+pub type CUnsignedShort = UInt16
+
+pub type CVoid = Unit
 
 // Traits
 pub(open) trait AlignOf {
   fn align_of() -> Int64
 }
+pub impl AlignOf for Unit
+pub impl AlignOf for Byte
+pub impl AlignOf for Int
+pub impl AlignOf for Int16
+pub impl AlignOf for Int64
+pub impl AlignOf for UInt
+pub impl AlignOf for UInt16
+pub impl AlignOf for UInt64
+pub impl AlignOf for Float
+pub impl AlignOf for Double
 
 pub(open) trait BytesAsPointer {
-  fn as_pointer(Self) -> Pointer[CUInt8]
+  fn as_pointer(Self) -> Pointer[Byte]
 }
 pub impl BytesAsPointer for Bytes
 
 pub(open) trait DoubleArrayAsPointer {
-  fn as_pointer(Self) -> Pointer[CDouble]
+  fn as_pointer(Self) -> Pointer[Double]
 }
 pub impl DoubleArrayAsPointer for FixedArray[Double]
 
 pub(open) trait FloatArrayAsPointer {
-  fn as_pointer(Self) -> Pointer[CFloat]
+  fn as_pointer(Self) -> Pointer[Float]
 }
 pub impl FloatArrayAsPointer for FixedArray[Float]
 
 pub(open) trait Int64ArrayAsPointer {
-  fn as_pointer(Self) -> Pointer[CInt64]
+  fn as_pointer(Self) -> Pointer[Int64]
 }
 pub impl Int64ArrayAsPointer for FixedArray[Int64]
 
 pub(open) trait IntArrayAsPointer {
-  fn as_pointer(Self) -> Pointer[CInt32]
+  fn as_pointer(Self) -> Pointer[Int]
 }
 pub impl IntArrayAsPointer for FixedArray[Int]
 
 pub(open) trait SizeOf {
   fn size_of() -> Int64
 }
+pub impl SizeOf for Unit
+pub impl SizeOf for Byte
+pub impl SizeOf for Int
+pub impl SizeOf for Int16
+pub impl SizeOf for Int64
+pub impl SizeOf for UInt
+pub impl SizeOf for UInt16
+pub impl SizeOf for UInt64
+pub impl SizeOf for Float
+pub impl SizeOf for Double
 
 pub(open) trait UInt64ArrayAsPointer {
-  fn as_pointer(Self) -> Pointer[CUInt64]
+  fn as_pointer(Self) -> Pointer[UInt64]
 }
 pub impl UInt64ArrayAsPointer for FixedArray[UInt64]
 
 pub(open) trait UIntArrayAsPointer {
-  fn as_pointer(Self) -> Pointer[CUInt32]
+  fn as_pointer(Self) -> Pointer[UInt]
 }
 pub impl UIntArrayAsPointer for FixedArray[UInt]
 

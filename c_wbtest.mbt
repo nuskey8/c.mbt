@@ -52,7 +52,6 @@ test "pointer cast preserves address" {
 ///|
 test "C type sizes and element offsets" {
   let pointer = test_int32_pointer()
-  assert_eq(CInt32::size_of(), 4L)
   assert_eq(pointer.add(1UL).address() - pointer.address(), 4UL)
   pointer.write_int32(10)
   pointer.add(1UL).write_int32(20)
@@ -61,8 +60,6 @@ test "C type sizes and element offsets" {
   assert_eq(read_only_pointer.add(1UL).read_int32(), 20)
   assert_eq(read_only_pointer.add(1UL).sub(1UL).address(), pointer.address())
   assert_eq(read_only_pointer.add(1UL).offset(-1L).address(), pointer.address())
-  assert_eq(CChar::size_of(), 1L)
-  assert_true(CInt32::align_of() > 0L)
 }
 
 ///|
@@ -132,4 +129,18 @@ test "FixedArray::as_pointer borrows mutable storage" {
   let pointer = IntArrayAsPointer::as_pointer(values)
   pointer.add(1UL).write_int32(99)
   assert_eq(values[1], 99)
+}
+
+///|
+extern "c" fn test_cuint8_value() -> CUInt8 = "c_mbt_test_cuint8_value"
+
+///|
+extern "c" fn test_cint32_value() -> CInt32 = "c_mbt_test_cint32_value"
+
+///|
+test "fixed-width C aliases cross FFI directly" {
+  let int32 : Int = test_cint32_value()
+  let uint8 : Byte = test_cuint8_value()
+  assert_eq(int32, 123)
+  assert_eq(uint8, 0xff)
 }

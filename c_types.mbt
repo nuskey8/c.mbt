@@ -12,23 +12,23 @@ pub type CSignedChar
 
 ///|
 /// Marker for C `unsigned char`.
-pub type CUnsignedChar
+pub type CUnsignedChar = Byte
 
 ///|
 /// Marker for C `short`.
-pub type CShort
+pub type CShort = Int16
 
 ///|
 /// Marker for C `unsigned short`.
-pub type CUnsignedShort
+pub type CUnsignedShort = UInt16
 
 ///|
 /// Marker for C `int`.
-pub type CInt
+pub type CInt = Int
 
 ///|
 /// Marker for C `unsigned int`.
-pub type CUnsignedInt
+pub type CUnsignedInt = UInt
 
 ///|
 /// Marker for C `long`.
@@ -40,11 +40,11 @@ pub type CUnsignedLong
 
 ///|
 /// Marker for C `long long`.
-pub type CLongLong
+pub type CLongLong = Int64
 
 ///|
 /// Marker for C `unsigned long long`.
-pub type CUnsignedLongLong
+pub type CUnsignedLongLong = UInt64
 
 ///|
 /// Marker for C `size_t`.
@@ -70,19 +70,7 @@ pub(open) trait AlignOf {
 extern "c" fn sizeof_bool_raw() -> Int64 = "c_mbt_sizeof_bool"
 
 ///|
-extern "c" fn sizeof_char_raw() -> Int64 = "c_mbt_sizeof_char"
-
-///|
-extern "c" fn sizeof_short_raw() -> Int64 = "c_mbt_sizeof_short"
-
-///|
-extern "c" fn sizeof_int_raw() -> Int64 = "c_mbt_sizeof_int"
-
-///|
 extern "c" fn sizeof_long_raw() -> Int64 = "c_mbt_sizeof_long"
-
-///|
-extern "c" fn sizeof_long_long_raw() -> Int64 = "c_mbt_sizeof_long_long"
 
 ///|
 extern "c" fn sizeof_size_raw() -> Int64 = "c_mbt_sizeof_size"
@@ -178,7 +166,7 @@ pub fn[T : SizeOf] ReadOnlyPointer::sub(
 }
 
 ///|
-pub impl SizeOf for CVoid with fn size_of() {
+pub impl SizeOf for Unit with fn size_of() {
   1L
 }
 
@@ -188,47 +176,47 @@ pub impl SizeOf for CInt8 with fn size_of() {
 }
 
 ///|
-pub impl SizeOf for CUInt8 with fn size_of() {
+pub impl SizeOf for Byte with fn size_of() {
   1L
 }
 
 ///|
-pub impl SizeOf for CInt16 with fn size_of() {
+pub impl SizeOf for Int16 with fn size_of() {
   2L
 }
 
 ///|
-pub impl SizeOf for CUInt16 with fn size_of() {
+pub impl SizeOf for UInt16 with fn size_of() {
   2L
 }
 
 ///|
-pub impl SizeOf for CInt32 with fn size_of() {
+pub impl SizeOf for Int with fn size_of() {
   4L
 }
 
 ///|
-pub impl SizeOf for CUInt32 with fn size_of() {
+pub impl SizeOf for UInt with fn size_of() {
   4L
 }
 
 ///|
-pub impl SizeOf for CInt64 with fn size_of() {
+pub impl SizeOf for Int64 with fn size_of() {
   8L
 }
 
 ///|
-pub impl SizeOf for CUInt64 with fn size_of() {
+pub impl SizeOf for UInt64 with fn size_of() {
   8L
 }
 
 ///|
-pub impl SizeOf for CFloat with fn size_of() {
+pub impl SizeOf for Float with fn size_of() {
   4L
 }
 
 ///|
-pub impl SizeOf for CDouble with fn size_of() {
+pub impl SizeOf for Double with fn size_of() {
   8L
 }
 
@@ -239,37 +227,12 @@ pub impl SizeOf for CBool with fn size_of() {
 
 ///|
 pub impl SizeOf for CChar with fn size_of() {
-  sizeof_char_raw()
+  1L
 }
 
 ///|
 pub impl SizeOf for CSignedChar with fn size_of() {
-  sizeof_char_raw()
-}
-
-///|
-pub impl SizeOf for CUnsignedChar with fn size_of() {
-  sizeof_char_raw()
-}
-
-///|
-pub impl SizeOf for CShort with fn size_of() {
-  sizeof_short_raw()
-}
-
-///|
-pub impl SizeOf for CUnsignedShort with fn size_of() {
-  sizeof_short_raw()
-}
-
-///|
-pub impl SizeOf for CInt with fn size_of() {
-  sizeof_int_raw()
-}
-
-///|
-pub impl SizeOf for CUnsignedInt with fn size_of() {
-  sizeof_int_raw()
+  1L
 }
 
 ///|
@@ -280,16 +243,6 @@ pub impl SizeOf for CLong with fn size_of() {
 ///|
 pub impl SizeOf for CUnsignedLong with fn size_of() {
   sizeof_long_raw()
-}
-
-///|
-pub impl SizeOf for CLongLong with fn size_of() {
-  sizeof_long_long_raw()
-}
-
-///|
-pub impl SizeOf for CUnsignedLongLong with fn size_of() {
-  sizeof_long_long_raw()
 }
 
 ///|
@@ -313,7 +266,7 @@ pub impl[T] SizeOf for ReadOnlyPointer[T] with fn size_of() {
 }
 
 ///|
-pub impl AlignOf for CVoid with fn align_of() {
+pub impl AlignOf for Unit with fn align_of() {
   1L
 }
 
@@ -323,47 +276,47 @@ pub impl AlignOf for CInt8 with fn align_of() {
 }
 
 ///|
-pub impl AlignOf for CUInt8 with fn align_of() {
-  alignof_raw(2)
+pub impl AlignOf for Byte with fn align_of() {
+  alignof_raw(1)
 }
 
 ///|
-pub impl AlignOf for CInt16 with fn align_of() {
+pub impl AlignOf for Int16 with fn align_of() {
   alignof_raw(3)
 }
 
 ///|
-pub impl AlignOf for CUInt16 with fn align_of() {
+pub impl AlignOf for UInt16 with fn align_of() {
   alignof_raw(4)
 }
 
 ///|
-pub impl AlignOf for CInt32 with fn align_of() {
+pub impl AlignOf for Int with fn align_of() {
   alignof_raw(5)
 }
 
 ///|
-pub impl AlignOf for CUInt32 with fn align_of() {
+pub impl AlignOf for UInt with fn align_of() {
   alignof_raw(6)
 }
 
 ///|
-pub impl AlignOf for CInt64 with fn align_of() {
+pub impl AlignOf for Int64 with fn align_of() {
   alignof_raw(7)
 }
 
 ///|
-pub impl AlignOf for CUInt64 with fn align_of() {
+pub impl AlignOf for UInt64 with fn align_of() {
   alignof_raw(8)
 }
 
 ///|
-pub impl AlignOf for CFloat with fn align_of() {
+pub impl AlignOf for Float with fn align_of() {
   alignof_raw(9)
 }
 
 ///|
-pub impl AlignOf for CDouble with fn align_of() {
+pub impl AlignOf for Double with fn align_of() {
   alignof_raw(10)
 }
 
@@ -383,31 +336,6 @@ pub impl AlignOf for CSignedChar with fn align_of() {
 }
 
 ///|
-pub impl AlignOf for CUnsignedChar with fn align_of() {
-  alignof_raw(14)
-}
-
-///|
-pub impl AlignOf for CShort with fn align_of() {
-  alignof_raw(15)
-}
-
-///|
-pub impl AlignOf for CUnsignedShort with fn align_of() {
-  alignof_raw(16)
-}
-
-///|
-pub impl AlignOf for CInt with fn align_of() {
-  alignof_raw(17)
-}
-
-///|
-pub impl AlignOf for CUnsignedInt with fn align_of() {
-  alignof_raw(18)
-}
-
-///|
 pub impl AlignOf for CLong with fn align_of() {
   alignof_raw(19)
 }
@@ -415,16 +343,6 @@ pub impl AlignOf for CLong with fn align_of() {
 ///|
 pub impl AlignOf for CUnsignedLong with fn align_of() {
   alignof_raw(20)
-}
-
-///|
-pub impl AlignOf for CLongLong with fn align_of() {
-  alignof_raw(21)
-}
-
-///|
-pub impl AlignOf for CUnsignedLongLong with fn align_of() {
-  alignof_raw(22)
 }
 
 ///|

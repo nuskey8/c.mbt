@@ -1,6 +1,6 @@
 ///|
 /// Marker for `void`.
-pub type CVoid
+pub type CVoid = Unit
 
 ///|
 /// Marker for `int8_t`.
@@ -8,39 +8,39 @@ pub type CInt8
 
 ///|
 /// Marker for `uint8_t`.
-pub type CUInt8
+pub type CUInt8 = Byte
 
 ///|
 /// Marker for `int16_t`.
-pub type CInt16
+pub type CInt16 = Int16
 
 ///|
 /// Marker for `uint16_t`.
-pub type CUInt16
+pub type CUInt16 = UInt16
 
 ///|
 /// Marker for `int32_t`.
-pub type CInt32
+pub type CInt32 = Int
 
 ///|
 /// Marker for `uint32_t`.
-pub type CUInt32
+pub type CUInt32 = UInt
 
 ///|
 /// Marker for `int64_t`.
-pub type CInt64
+pub type CInt64 = Int64
 
 ///|
 /// Marker for `uint64_t`.
-pub type CUInt64
+pub type CUInt64 = UInt64
 
 ///|
 /// Marker for C `float`.
-pub type CFloat
+pub type CFloat = Float
 
 ///|
 /// Marker for C `double`.
-pub type CDouble
+pub type CDouble = Double
 
 ///|
 /// A non-owning mutable C pointer.

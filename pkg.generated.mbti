@@ -208,56 +208,6 @@ pub(open) trait BytesAsPointer {
 }
 pub impl BytesAsPointer for Bytes
 
-pub(open) trait CBoolArrayAsPointer {
-  fn as_pointer(Self) -> Pointer[CBool]
-}
-pub impl CBoolArrayAsPointer for FixedArray[CBool]
-
-pub(open) trait CCharArrayAsPointer {
-  fn as_pointer(Self) -> Pointer[CChar]
-}
-pub impl CCharArrayAsPointer for FixedArray[CChar]
-
-pub(open) trait CInt8ArrayAsPointer {
-  fn as_pointer(Self) -> Pointer[CInt8]
-}
-pub impl CInt8ArrayAsPointer for FixedArray[CInt8]
-
-pub(open) trait CIntPtrArrayAsPointer {
-  fn as_pointer(Self) -> Pointer[CIntPtr]
-}
-pub impl CIntPtrArrayAsPointer for FixedArray[CIntPtr]
-
-pub(open) trait CLongArrayAsPointer {
-  fn as_pointer(Self) -> Pointer[CLong]
-}
-pub impl CLongArrayAsPointer for FixedArray[CLong]
-
-pub(open) trait CPtrDiffArrayAsPointer {
-  fn as_pointer(Self) -> Pointer[CPtrDiff]
-}
-pub impl CPtrDiffArrayAsPointer for FixedArray[CPtrDiff]
-
-pub(open) trait CSignedCharArrayAsPointer {
-  fn as_pointer(Self) -> Pointer[CSignedChar]
-}
-pub impl CSignedCharArrayAsPointer for FixedArray[CSignedChar]
-
-pub(open) trait CSizeArrayAsPointer {
-  fn as_pointer(Self) -> Pointer[CSize]
-}
-pub impl CSizeArrayAsPointer for FixedArray[CSize]
-
-pub(open) trait CUIntPtrArrayAsPointer {
-  fn as_pointer(Self) -> Pointer[CUIntPtr]
-}
-pub impl CUIntPtrArrayAsPointer for FixedArray[CUIntPtr]
-
-pub(open) trait CUnsignedLongArrayAsPointer {
-  fn as_pointer(Self) -> Pointer[CUnsignedLong]
-}
-pub impl CUnsignedLongArrayAsPointer for FixedArray[CUnsignedLong]
-
 pub(open) trait DoubleArrayAsPointer {
   fn as_pointer(Self) -> Pointer[Double]
 }

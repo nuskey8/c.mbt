@@ -13,11 +13,38 @@ c_mbt_bytes_as_pointer(moonbit_bytes_t bytes) {
   return bytes;
 }
 
-MOONBIT_FFI_EXPORT void *c_mbt_fixed_array_as_pointer(void *array) {
-  return array;
-}
+#define C_MBT_DEFINE_ARRAY_POINTER(name, type)                               \
+  MOONBIT_FFI_EXPORT void *name(type *array) { return (void *)array; }
+
+C_MBT_DEFINE_ARRAY_POINTER(c_mbt_int_array_as_pointer, int32_t)
+C_MBT_DEFINE_ARRAY_POINTER(c_mbt_uint_array_as_pointer, uint32_t)
+C_MBT_DEFINE_ARRAY_POINTER(c_mbt_byte_array_as_pointer, uint8_t)
+C_MBT_DEFINE_ARRAY_POINTER(c_mbt_int16_array_as_pointer, int16_t)
+C_MBT_DEFINE_ARRAY_POINTER(c_mbt_uint16_array_as_pointer, uint16_t)
+C_MBT_DEFINE_ARRAY_POINTER(c_mbt_pointer_array_as_pointer, void *)
+C_MBT_DEFINE_ARRAY_POINTER(c_mbt_readonly_pointer_array_as_pointer, void *)
+C_MBT_DEFINE_ARRAY_POINTER(c_mbt_int64_array_as_pointer, int64_t)
+C_MBT_DEFINE_ARRAY_POINTER(c_mbt_uint64_array_as_pointer, uint64_t)
+C_MBT_DEFINE_ARRAY_POINTER(c_mbt_float_array_as_pointer, float)
+C_MBT_DEFINE_ARRAY_POINTER(c_mbt_double_array_as_pointer, double)
+
+#undef C_MBT_DEFINE_ARRAY_POINTER
 
 typedef int32_t (*c_mbt_test_function_pointer)(int32_t);
+
+MOONBIT_FFI_EXPORT uint32_t
+c_mbt_test_byte_array_round_trip(uint8_t *values, int32_t length) {
+  uint32_t sum = 0;
+  for (int32_t i = 0; i < length; ++i) {
+    sum += values[i];
+  }
+  if (length >= 3) {
+    values[0] = 0;
+    values[1] = 127;
+    values[length - 1] = 255;
+  }
+  return sum;
+}
 
 MOONBIT_FFI_EXPORT void *c_mbt_test_function_pointer_as_void_pointer(
     c_mbt_test_function_pointer function) {

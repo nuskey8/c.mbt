@@ -11,7 +11,7 @@
 
 name = "nuskey8/c"
 
-version = "0.2.1"
+version = "0.3.0"
 
 readme = "README.mbt.md"
 
@@ -23,4 +23,4 @@ keywords = [ ]
 
 preferred_target = "native"
 
-description = "C FFI helper for Moonbit"
+description = "Provides C FFI types for MoonBit's native backend"

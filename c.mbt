@@ -4,7 +4,7 @@ pub type CVoid = Unit
 
 ///|
 /// Marker for `int8_t`.
-pub type CInt8
+pub type CInt8 = Byte
 
 ///|
 /// Marker for `uint8_t`.

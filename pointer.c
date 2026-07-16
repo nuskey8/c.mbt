@@ -56,30 +56,11 @@ MOONBIT_FFI_EXPORT int32_t c_mbt_test_call_function_pointer_array(
   return functions[index](value);
 }
 
-MOONBIT_FFI_EXPORT int64_t c_mbt_sizeof_bool(void) { return sizeof(bool); }
-MOONBIT_FFI_EXPORT int64_t c_mbt_sizeof_char(void) { return sizeof(char); }
-MOONBIT_FFI_EXPORT int64_t c_mbt_sizeof_short(void) { return sizeof(short); }
-MOONBIT_FFI_EXPORT int64_t c_mbt_sizeof_int(void) { return sizeof(int); }
-MOONBIT_FFI_EXPORT int64_t c_mbt_sizeof_long(void) { return sizeof(long); }
-MOONBIT_FFI_EXPORT int64_t c_mbt_sizeof_long_long(void) {
-  return sizeof(long long);
-}
-MOONBIT_FFI_EXPORT int64_t c_mbt_sizeof_size(void) { return sizeof(size_t); }
-MOONBIT_FFI_EXPORT int64_t c_mbt_sizeof_ptrdiff(void) {
-  return sizeof(ptrdiff_t);
-}
-MOONBIT_FFI_EXPORT int64_t c_mbt_sizeof_intptr(void) {
-  return sizeof(intptr_t);
-}
-MOONBIT_FFI_EXPORT int64_t c_mbt_sizeof_uintptr(void) {
-  return sizeof(uintptr_t);
-}
 MOONBIT_FFI_EXPORT int64_t c_mbt_sizeof_pointer(void) { return sizeof(void *); }
 
 MOONBIT_FFI_EXPORT int64_t c_mbt_alignof(int32_t type_id) {
   switch (type_id) {
   case 1: return _Alignof(int8_t);
-  case 2: return _Alignof(uint8_t);
   case 3: return _Alignof(int16_t);
   case 4: return _Alignof(uint16_t);
   case 5: return _Alignof(int32_t);
@@ -88,23 +69,7 @@ MOONBIT_FFI_EXPORT int64_t c_mbt_alignof(int32_t type_id) {
   case 8: return _Alignof(uint64_t);
   case 9: return _Alignof(float);
   case 10: return _Alignof(double);
-  case 11: return _Alignof(bool);
-  case 12: return _Alignof(char);
-  case 13: return _Alignof(signed char);
-  case 14: return _Alignof(unsigned char);
-  case 15: return _Alignof(short);
-  case 16: return _Alignof(unsigned short);
-  case 17: return _Alignof(int);
-  case 18: return _Alignof(unsigned int);
-  case 19: return _Alignof(long);
-  case 20: return _Alignof(unsigned long);
-  case 21: return _Alignof(long long);
-  case 22: return _Alignof(unsigned long long);
-  case 23: return _Alignof(size_t);
-  case 24: return _Alignof(ptrdiff_t);
   case 25: return _Alignof(void *);
-  case 26: return _Alignof(intptr_t);
-  case 27: return _Alignof(uintptr_t);
   default: return 1;
   }
 }

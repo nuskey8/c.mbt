@@ -93,6 +93,18 @@ extern "c" fn cptrdiff_array_as_pointer_raw(
 ) -> Pointer[CPtrDiff] = "c_mbt_fixed_array_as_pointer"
 
 ///|
+#borrow(value)
+extern "c" fn cintptr_array_as_pointer_raw(
+  value : FixedArray[CIntPtr],
+) -> Pointer[CIntPtr] = "c_mbt_fixed_array_as_pointer"
+
+///|
+#borrow(value)
+extern "c" fn cuintptr_array_as_pointer_raw(
+  value : FixedArray[CUIntPtr],
+) -> Pointer[CUIntPtr] = "c_mbt_fixed_array_as_pointer"
+
+///|
 fn[T] erase_pointer_array(
   value : FixedArray[Pointer[T]],
 ) -> FixedArray[Pointer[Unit]] = "%identity"
@@ -214,6 +226,16 @@ pub(open) trait CPtrDiffArrayAsPointer {
 }
 
 ///|
+pub(open) trait CIntPtrArrayAsPointer {
+  fn as_pointer(Self) -> Pointer[CIntPtr]
+}
+
+///|
+pub(open) trait CUIntPtrArrayAsPointer {
+  fn as_pointer(Self) -> Pointer[CUIntPtr]
+}
+
+///|
 pub(open) trait Int64ArrayAsPointer {
   fn as_pointer(Self) -> Pointer[CInt64]
 }
@@ -325,6 +347,18 @@ pub impl CPtrDiffArrayAsPointer for FixedArray[CPtrDiff] with fn as_pointer(
   self,
 ) {
   cptrdiff_array_as_pointer_raw(self)
+}
+
+///|
+pub impl CIntPtrArrayAsPointer for FixedArray[CIntPtr] with fn as_pointer(self) {
+  cintptr_array_as_pointer_raw(self)
+}
+
+///|
+pub impl CUIntPtrArrayAsPointer for FixedArray[CUIntPtr] with fn as_pointer(
+  self,
+) {
+  cuintptr_array_as_pointer_raw(self)
 }
 
 ///|

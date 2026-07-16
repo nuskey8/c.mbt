@@ -11,6 +11,13 @@ extern "c" fn test_pointer_pointer() -> Pointer[Pointer[CInt32]] = "c_mbt_test_p
 extern "c" fn test_bytes_pointer() -> Pointer[CUnsignedChar] = "c_mbt_test_bytes_pointer"
 
 ///|
+#borrow(values)
+extern "c" fn test_byte_array_round_trip(
+  values : FixedArray[Byte],
+  length : Int,
+) -> UInt = "c_mbt_test_byte_array_round_trip"
+
+///|
 test "null pointers" {
   let mutable : Pointer[CInt32] = Pointer::null()
   let read_only_pointer : ReadOnlyPointer[CInt32] = ReadOnlyPointer::null()
@@ -140,6 +147,20 @@ test "byte fixed arrays expose their storage" {
 }
 
 ///|
+test "byte fixed arrays round-trip through C as contiguous uint8_t storage" {
+  let values : FixedArray[Byte] = [1, 2, 3, 4, 5, 6]
+  let pointer = ByteArrayAsPointer::as_pointer(values)
+  assert_eq(test_byte_array_round_trip(values, values.length()), 21U)
+  assert_eq(values[0], 0)
+  assert_eq(values[1], 127)
+  assert_eq(values[2], 3)
+  assert_eq(values[4], 5)
+  assert_eq(values[5], 255)
+  assert_eq(pointer.as_readonly().read_uint8(), 0)
+  assert_eq(pointer.add(5UL).as_readonly().read_uint8(), 255)
+}
+
+///|
 test "16-bit fixed arrays expose their storage" {
   let signed : FixedArray[Int16] = [1, 2]
   let signed_pointer = Int16ArrayAsPointer::as_pointer(signed)
@@ -181,94 +202,6 @@ test "read-only pointer fixed arrays expose const T double-pointer storage" {
     pointer.add(1UL).as_readonly().read_readonly_pointer().address(),
     second.address(),
   )
-}
-
-///|
-fn uint64_array_as_csize_array(value : FixedArray[UInt64]) -> FixedArray[CSize] = "%identity"
-
-///|
-test "size_t fixed arrays expose their storage" {
-  let values = uint64_array_as_csize_array([11UL, 22UL])
-  let pointer = CSizeArrayAsPointer::as_pointer(values)
-  assert_eq(pointer.as_readonly().read_size(), 11UL)
-  assert_eq(pointer.add(1UL).as_readonly().read_size(), 22UL)
-}
-
-///|
-fn byte_array_as_cint8_array(value : FixedArray[Byte]) -> FixedArray[CInt8] = "%identity"
-
-///|
-fn byte_array_as_cbool_array(value : FixedArray[Byte]) -> FixedArray[CBool] = "%identity"
-
-///|
-fn byte_array_as_cchar_array(value : FixedArray[Byte]) -> FixedArray[CChar] = "%identity"
-
-///|
-fn byte_array_as_csigned_char_array(
-  value : FixedArray[Byte],
-) -> FixedArray[CSignedChar] = "%identity"
-
-///|
-fn int64_array_as_clong_array(value : FixedArray[Int64]) -> FixedArray[CLong] = "%identity"
-
-///|
-fn uint64_array_as_cunsigned_long_array(
-  value : FixedArray[UInt64],
-) -> FixedArray[CUnsignedLong] = "%identity"
-
-///|
-fn int64_array_as_cptrdiff_array(
-  value : FixedArray[Int64],
-) -> FixedArray[CPtrDiff] = "%identity"
-
-///|
-fn int64_array_as_cintptr_array(
-  value : FixedArray[Int64],
-) -> FixedArray[CIntPtr] = "%identity"
-
-///|
-fn uint64_array_as_cuintptr_array(
-  value : FixedArray[UInt64],
-) -> FixedArray[CUIntPtr] = "%identity"
-
-///|
-test "opaque C scalar fixed arrays expose their storage" {
-  let int8 = CInt8ArrayAsPointer::as_pointer(byte_array_as_cint8_array([0xff]))
-  assert_eq(int8.as_readonly().read_int8(), -1)
-
-  let bool = CBoolArrayAsPointer::as_pointer(byte_array_as_cbool_array([1]))
-  assert_eq(bool.as_readonly().read_bool(), true)
-
-  let char = CCharArrayAsPointer::as_pointer(byte_array_as_cchar_array([65]))
-  assert_eq(char.as_readonly().read_char(), 65)
-
-  let signed_char = CSignedCharArrayAsPointer::as_pointer(
-    byte_array_as_csigned_char_array([0xff]),
-  )
-  assert_eq(signed_char.as_readonly().read_signed_char(), -1)
-
-  let long = CLongArrayAsPointer::as_pointer(int64_array_as_clong_array([42L]))
-  assert_eq(long.as_readonly().read_long(), 42L)
-
-  let unsigned_long = CUnsignedLongArrayAsPointer::as_pointer(
-    uint64_array_as_cunsigned_long_array([43UL]),
-  )
-  assert_eq(unsigned_long.as_readonly().read_unsigned_long(), 43UL)
-
-  let ptrdiff = CPtrDiffArrayAsPointer::as_pointer(
-    int64_array_as_cptrdiff_array([-44L]),
-  )
-  assert_eq(ptrdiff.as_readonly().read_ptrdiff(), -44L)
-
-  let intptr = CIntPtrArrayAsPointer::as_pointer(
-    int64_array_as_cintptr_array([-45L]),
-  )
-  assert_eq(intptr.as_readonly().read_intptr(), -45L)
-
-  let uintptr = CUIntPtrArrayAsPointer::as_pointer(
-    uint64_array_as_cuintptr_array([46UL]),
-  )
-  assert_eq(uintptr.as_readonly().read_uintptr(), 46UL)
 }
 
 ///|

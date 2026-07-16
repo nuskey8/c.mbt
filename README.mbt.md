@@ -146,19 +146,11 @@ Unsigned variants are available for the integer types. `CChar` follows the
 host C compiler's implementation-defined plain-`char` signedness; use
 `CSignedChar` or `CUnsignedChar` when signedness matters.
 
-Every marker implements `SizeOf` and `AlignOf`, using the host C compiler for
-platform-dependent values:
+### 64-bit platform types
 
-```moonbit nocheck
-///|
-let size = @c.CLong::size_of()
+`CSize`, `CPtrDiff`, `CIntPtr`, and `CUIntPtr` use 64-bit MoonBit integer storage. `CLong` and `CUnsignedLong` use 32-bit storage on Windows and 64-bit storage on other platforms. This matches the common 64-bit Windows LLP64 and 64-bit Unix LP64 ABIs.
 
-///|
-let alignment = @c.CLong::align_of()
-```
-
-`Pointer[T]` and `ReadOnlyPointer[T]` also implement these traits, so nested
-pointer arithmetic uses the host pointer size.
+On a 32-bit native environment, do not use these platform-dependent markers, their pointer read/write methods, or their fixed-array conversions. This is a limitation resulting from the fact that MoonBit does not have native integer types.
 
 ## Safety and ownership
 

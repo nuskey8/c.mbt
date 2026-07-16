@@ -126,6 +126,56 @@ pub type PointerArray
 pub type ReadOnlyPointerArray
 
 ///|
+pub(open) trait CSizeArrayAsPointer {
+  fn as_pointer(Self) -> Pointer[CSize]
+}
+
+///|
+pub(open) trait CInt8ArrayAsPointer {
+  fn as_pointer(Self) -> Pointer[CInt8]
+}
+
+///|
+pub(open) trait CBoolArrayAsPointer {
+  fn as_pointer(Self) -> Pointer[CBool]
+}
+
+///|
+pub(open) trait CCharArrayAsPointer {
+  fn as_pointer(Self) -> Pointer[CChar]
+}
+
+///|
+pub(open) trait CSignedCharArrayAsPointer {
+  fn as_pointer(Self) -> Pointer[CSignedChar]
+}
+
+///|
+pub(open) trait CLongArrayAsPointer {
+  fn as_pointer(Self) -> Pointer[CLong]
+}
+
+///|
+pub(open) trait CUnsignedLongArrayAsPointer {
+  fn as_pointer(Self) -> Pointer[CUnsignedLong]
+}
+
+///|
+pub(open) trait CPtrDiffArrayAsPointer {
+  fn as_pointer(Self) -> Pointer[CPtrDiff]
+}
+
+///|
+pub(open) trait CIntPtrArrayAsPointer {
+  fn as_pointer(Self) -> Pointer[CIntPtr]
+}
+
+///|
+pub(open) trait CUIntPtrArrayAsPointer {
+  fn as_pointer(Self) -> Pointer[CUIntPtr]
+}
+
+///|
 pub(open) trait Int64ArrayAsPointer {
   fn as_pointer(Self) -> Pointer[CInt64]
 }
@@ -191,6 +241,80 @@ pub fn[T] ReadOnlyPointerArray::as_pointer(
   restore_readonly_pointer_array_pointer(
     readonly_pointer_array_as_pointer_raw(erase_readonly_pointer_array(value)),
   )
+}
+
+///|
+pub impl CSizeArrayAsPointer for FixedArray[CSize] with fn as_pointer(self) {
+  uint64_array_as_pointer_raw(self)
+}
+
+///|
+pub impl CInt8ArrayAsPointer for FixedArray[CInt8] with fn as_pointer(self) {
+  byte_array_as_pointer_raw(self)
+}
+
+///|
+pub impl CBoolArrayAsPointer for FixedArray[CBool] with fn as_pointer(self) {
+  byte_array_as_pointer_raw(self)
+}
+
+///|
+pub impl CCharArrayAsPointer for FixedArray[CChar] with fn as_pointer(self) {
+  byte_array_as_pointer_raw(self)
+}
+
+///|
+pub impl CSignedCharArrayAsPointer for FixedArray[CSignedChar] with fn as_pointer(
+  self,
+) {
+  byte_array_as_pointer_raw(self)
+}
+
+///|
+#cfg(platform="windows")
+pub impl CLongArrayAsPointer for FixedArray[CLong] with fn as_pointer(self) {
+  int_array_as_pointer_raw(self)
+}
+
+///|
+#cfg(not(platform="windows"))
+pub impl CLongArrayAsPointer for FixedArray[CLong] with fn as_pointer(self) {
+  int64_array_as_pointer_raw(self)
+}
+
+///|
+#cfg(platform="windows")
+pub impl CUnsignedLongArrayAsPointer for FixedArray[CUnsignedLong] with fn as_pointer(
+  self,
+) {
+  uint_array_as_pointer_raw(self)
+}
+
+///|
+#cfg(not(platform="windows"))
+pub impl CUnsignedLongArrayAsPointer for FixedArray[CUnsignedLong] with fn as_pointer(
+  self,
+) {
+  uint64_array_as_pointer_raw(self)
+}
+
+///|
+pub impl CPtrDiffArrayAsPointer for FixedArray[CPtrDiff] with fn as_pointer(
+  self,
+) {
+  int64_array_as_pointer_raw(self)
+}
+
+///|
+pub impl CIntPtrArrayAsPointer for FixedArray[CIntPtr] with fn as_pointer(self) {
+  int64_array_as_pointer_raw(self)
+}
+
+///|
+pub impl CUIntPtrArrayAsPointer for FixedArray[CUIntPtr] with fn as_pointer(
+  self,
+) {
+  uint64_array_as_pointer_raw(self)
 }
 
 ///|

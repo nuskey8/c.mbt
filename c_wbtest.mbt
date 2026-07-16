@@ -205,18 +205,64 @@ test "read-only pointer fixed arrays expose const T double-pointer storage" {
 }
 
 ///|
-test "pointer-sized integer layout and access" {
-  assert_eq(CIntPtr::size_of(), CUIntPtr::size_of())
-  assert_true(CIntPtr::align_of() > 0L)
-  assert_true(CUIntPtr::align_of() > 0L)
+test "C scalar aliases expose contiguous fixed-array storage" {
+  let size_values : FixedArray[CSize] = [11UL, 22UL]
+  let size_pointer = CSizeArrayAsPointer::as_pointer(size_values)
+  assert_eq(size_pointer.as_readonly().read_size(), 11UL)
+  assert_eq(size_pointer.add(1UL).as_readonly().read_size(), 22UL)
 
+  let int8_values : FixedArray[CInt8] = [0xff]
+  let int8_pointer = CInt8ArrayAsPointer::as_pointer(int8_values)
+  assert_eq(int8_pointer.as_readonly().read_int8(), -1)
+
+  let bool_values : FixedArray[CBool] = [1]
+  let bool_pointer = CBoolArrayAsPointer::as_pointer(bool_values)
+  assert_true(bool_pointer.as_readonly().read_bool())
+
+  let char_values : FixedArray[CChar] = [65]
+  let char_pointer = CCharArrayAsPointer::as_pointer(char_values)
+  assert_eq(char_pointer.as_readonly().read_char(), 65)
+
+  let signed_char_values : FixedArray[CSignedChar] = [0xff]
+  let signed_char_pointer = CSignedCharArrayAsPointer::as_pointer(
+    signed_char_values,
+  )
+  assert_eq(signed_char_pointer.as_readonly().read_signed_char(), -1)
+
+  let long_values : FixedArray[CLong] = [42]
+  let long_pointer = CLongArrayAsPointer::as_pointer(long_values)
+  assert_eq(long_pointer.as_readonly().read_long(), 42L)
+
+  let unsigned_long_values : FixedArray[CUnsignedLong] = [43]
+  let unsigned_long_pointer = CUnsignedLongArrayAsPointer::as_pointer(
+    unsigned_long_values,
+  )
+  assert_eq(unsigned_long_pointer.as_readonly().read_unsigned_long(), 43UL)
+
+  let ptrdiff_values : FixedArray[CPtrDiff] = [-44L]
+  let ptrdiff_pointer = CPtrDiffArrayAsPointer::as_pointer(ptrdiff_values)
+  assert_eq(ptrdiff_pointer.as_readonly().read_ptrdiff(), -44L)
+
+  let intptr_values : FixedArray[CIntPtr] = [-45L]
+  let intptr_pointer = CIntPtrArrayAsPointer::as_pointer(intptr_values)
+  assert_eq(intptr_pointer.as_readonly().read_intptr(), -45L)
+
+  let uintptr_values : FixedArray[CUIntPtr] = [46UL]
+  let uintptr_pointer = CUIntPtrArrayAsPointer::as_pointer(uintptr_values)
+  assert_eq(uintptr_pointer.as_readonly().read_uintptr(), 46UL)
+}
+
+///|
+test "pointer-sized integer layout and access" {
   let intptr : Pointer[CIntPtr] = test_bytes_pointer().unsafe_cast()
   intptr.write_intptr(-123L)
   assert_eq(intptr.as_readonly().read_intptr(), -123L)
+  assert_eq(intptr.add(1UL).address() - intptr.address(), 8UL)
 
   let uintptr : Pointer[CUIntPtr] = test_bytes_pointer().unsafe_cast()
   uintptr.write_uintptr(456UL)
   assert_eq(uintptr.as_readonly().read_uintptr(), 456UL)
+  assert_eq(uintptr.add(1UL).address() - uintptr.address(), 8UL)
 }
 
 ///|

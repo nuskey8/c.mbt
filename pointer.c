@@ -8,7 +8,8 @@
 MOONBIT_FFI_EXPORT uint8_t c_mbt_test_cuint8_value(void) { return 0xff; }
 MOONBIT_FFI_EXPORT int32_t c_mbt_test_cint32_value(void) { return 123; }
 
-MOONBIT_FFI_EXPORT uint8_t *c_mbt_bytes_as_pointer(moonbit_bytes_t bytes) {
+MOONBIT_FFI_EXPORT const uint8_t *
+c_mbt_bytes_as_pointer(moonbit_bytes_t bytes) {
   return bytes;
 }
 

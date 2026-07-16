@@ -1,6 +1,6 @@
 ///|
 #borrow(value)
-extern "c" fn bytes_as_pointer_raw(value : Bytes) -> Pointer[CUInt8] = "c_mbt_bytes_as_pointer"
+extern "c" fn bytes_as_pointer_raw(value : Bytes) -> ReadOnlyPointer[CUInt8] = "c_mbt_bytes_as_pointer"
 
 ///|
 #borrow(value)
@@ -137,8 +137,9 @@ extern "c" fn double_array_as_pointer_raw(
 ) -> Pointer[CDouble] = "c_mbt_fixed_array_as_pointer"
 
 ///|
+/// Borrows the read-only storage of `Bytes` as a C pointer.
 pub(open) trait BytesAsPointer {
-  fn as_pointer(Self) -> Pointer[CUInt8]
+  fn as_pointer(Self) -> ReadOnlyPointer[CUInt8]
 }
 
 ///|

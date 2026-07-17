@@ -139,6 +139,16 @@ test "Bytes::as_pointer borrows its storage" {
 }
 
 ///|
+test "Bytes::with_pointer exposes scoped read-only storage" {
+  let bytes = b"abc"
+  let result = BytesAsPointer::with_pointer(bytes, pointer => {
+    pointer.read_uint8().to_uint() + pointer.add(2UL).read_uint8().to_uint()
+  })
+  assert_eq(result, b'a'.to_uint() + b'c'.to_uint())
+  assert_eq(bytes.length(), 3)
+}
+
+///|
 test "FixedArray::as_pointer borrows mutable storage" {
   let values : FixedArray[Int] = [10, 20]
   let pointer = IntArrayAsPointer::as_pointer(values)

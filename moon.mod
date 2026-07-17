@@ -19,7 +19,7 @@ repository = "https://github.com/nuskey8/c.mbt"
 
 license = "MIT"
 
-keywords = [ ]
+keywords = ["c", "ffi", "native"]
 
 preferred_target = "native"
 

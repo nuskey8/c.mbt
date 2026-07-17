@@ -92,6 +92,7 @@ extern "c" fn double_array_as_pointer_raw(
 /// Borrows the read-only storage of `Bytes` as a C pointer.
 pub(open) trait BytesAsPointer {
   fn as_pointer(Self) -> ReadOnlyPointer[CUInt8]
+  fn[R] with_pointer(Self, (ReadOnlyPointer[CUInt8]) -> R) -> R
 }
 
 ///|
@@ -217,6 +218,14 @@ pub(open) trait DoubleArrayAsPointer {
 ///|
 pub impl BytesAsPointer for Bytes with fn as_pointer(self) {
   bytes_as_pointer_raw(self)
+}
+
+///|
+pub impl BytesAsPointer for Bytes with fn[R] with_pointer(
+  self : Bytes,
+  action : (ReadOnlyPointer[CUInt8]) -> R,
+) -> R {
+  action(BytesAsPointer::as_pointer(self))
 }
 
 ///|

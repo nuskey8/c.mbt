@@ -8,6 +8,7 @@ package "nuskey8/c"
 // Types and methods
 pub type FuncRefArray
 pub fn[F] FuncRefArray::as_pointer(FixedArray[FuncRef[F]]) -> Pointer[FuncRef[F]]
+pub fn[F, R] FuncRefArray::with_pointer(FixedArray[FuncRef[F]], (Pointer[FuncRef[F]]) -> R) -> R
 
 pub type FuncRefPointer
 pub fn[F] FuncRefPointer::unsafe_from_void_pointer(Pointer[Unit]) -> FuncRef[F]
@@ -61,6 +62,7 @@ pub impl[T] SizeOf for Pointer[T]
 
 pub type PointerArray
 pub fn[T] PointerArray::as_pointer(FixedArray[Pointer[T]]) -> Pointer[Pointer[T]]
+pub fn[T, R] PointerArray::with_pointer(FixedArray[Pointer[T]], (Pointer[Pointer[T]]) -> R) -> R
 
 #external
 pub type ReadOnlyPointer[T]
@@ -106,6 +108,7 @@ pub impl[T] SizeOf for ReadOnlyPointer[T]
 
 pub type ReadOnlyPointerArray
 pub fn[T] ReadOnlyPointerArray::as_pointer(FixedArray[ReadOnlyPointer[T]]) -> Pointer[ReadOnlyPointer[T]]
+pub fn[T, R] ReadOnlyPointerArray::with_pointer(FixedArray[ReadOnlyPointer[T]], (Pointer[ReadOnlyPointer[T]]) -> R) -> R
 
 // Type aliases
 pub type CBool = Byte
@@ -180,6 +183,7 @@ pub impl[F] AlignOf for FuncRef[F]
 
 pub(open) trait ByteArrayAsPointer {
   fn as_pointer(Self) -> Pointer[Byte]
+  fn[R] with_pointer(Self, (Pointer[Byte]) -> R) -> R
 }
 pub impl ByteArrayAsPointer for FixedArray[Byte]
 
@@ -190,61 +194,73 @@ pub impl BytesAsPointer for Bytes
 
 pub(open) trait CBoolArrayAsPointer {
   fn as_pointer(Self) -> Pointer[Byte]
+  fn[R] with_pointer(Self, (Pointer[Byte]) -> R) -> R
 }
 pub impl CBoolArrayAsPointer for FixedArray[Byte]
 
 pub(open) trait CCharArrayAsPointer {
   fn as_pointer(Self) -> Pointer[Byte]
+  fn[R] with_pointer(Self, (Pointer[Byte]) -> R) -> R
 }
 pub impl CCharArrayAsPointer for FixedArray[Byte]
 
 pub(open) trait CInt8ArrayAsPointer {
   fn as_pointer(Self) -> Pointer[Byte]
+  fn[R] with_pointer(Self, (Pointer[Byte]) -> R) -> R
 }
 pub impl CInt8ArrayAsPointer for FixedArray[Byte]
 
 pub(open) trait CIntPtrArrayAsPointer {
   fn as_pointer(Self) -> Pointer[Int64]
+  fn[R] with_pointer(Self, (Pointer[Int64]) -> R) -> R
 }
 pub impl CIntPtrArrayAsPointer for FixedArray[Int64]
 
 pub(open) trait CLongArrayAsPointer {
   fn as_pointer(Self) -> Pointer[Int64]
+  fn[R] with_pointer(Self, (Pointer[Int64]) -> R) -> R
 }
 pub impl CLongArrayAsPointer for FixedArray[Int64]
 
 pub(open) trait CPtrDiffArrayAsPointer {
   fn as_pointer(Self) -> Pointer[Int64]
+  fn[R] with_pointer(Self, (Pointer[Int64]) -> R) -> R
 }
 pub impl CPtrDiffArrayAsPointer for FixedArray[Int64]
 
 pub(open) trait CSignedCharArrayAsPointer {
   fn as_pointer(Self) -> Pointer[Byte]
+  fn[R] with_pointer(Self, (Pointer[Byte]) -> R) -> R
 }
 pub impl CSignedCharArrayAsPointer for FixedArray[Byte]
 
 pub(open) trait CSizeArrayAsPointer {
   fn as_pointer(Self) -> Pointer[UInt64]
+  fn[R] with_pointer(Self, (Pointer[UInt64]) -> R) -> R
 }
 pub impl CSizeArrayAsPointer for FixedArray[UInt64]
 
 pub(open) trait CUIntPtrArrayAsPointer {
   fn as_pointer(Self) -> Pointer[UInt64]
+  fn[R] with_pointer(Self, (Pointer[UInt64]) -> R) -> R
 }
 pub impl CUIntPtrArrayAsPointer for FixedArray[UInt64]
 
 pub(open) trait CUnsignedLongArrayAsPointer {
   fn as_pointer(Self) -> Pointer[UInt64]
+  fn[R] with_pointer(Self, (Pointer[UInt64]) -> R) -> R
 }
 pub impl CUnsignedLongArrayAsPointer for FixedArray[UInt64]
 
 pub(open) trait DoubleArrayAsPointer {
   fn as_pointer(Self) -> Pointer[Double]
+  fn[R] with_pointer(Self, (Pointer[Double]) -> R) -> R
 }
 pub impl DoubleArrayAsPointer for FixedArray[Double]
 
 pub(open) trait FloatArrayAsPointer {
   fn as_pointer(Self) -> Pointer[Float]
+  fn[R] with_pointer(Self, (Pointer[Float]) -> R) -> R
 }
 pub impl FloatArrayAsPointer for FixedArray[Float]
 
@@ -255,16 +271,19 @@ pub impl[F] FuncRefAsVoidPointer for FuncRef[F]
 
 pub(open) trait Int16ArrayAsPointer {
   fn as_pointer(Self) -> Pointer[Int16]
+  fn[R] with_pointer(Self, (Pointer[Int16]) -> R) -> R
 }
 pub impl Int16ArrayAsPointer for FixedArray[Int16]
 
 pub(open) trait Int64ArrayAsPointer {
   fn as_pointer(Self) -> Pointer[Int64]
+  fn[R] with_pointer(Self, (Pointer[Int64]) -> R) -> R
 }
 pub impl Int64ArrayAsPointer for FixedArray[Int64]
 
 pub(open) trait IntArrayAsPointer {
   fn as_pointer(Self) -> Pointer[Int]
+  fn[R] with_pointer(Self, (Pointer[Int]) -> R) -> R
 }
 pub impl IntArrayAsPointer for FixedArray[Int]
 
@@ -285,16 +304,19 @@ pub impl[F] SizeOf for FuncRef[F]
 
 pub(open) trait UInt16ArrayAsPointer {
   fn as_pointer(Self) -> Pointer[UInt16]
+  fn[R] with_pointer(Self, (Pointer[UInt16]) -> R) -> R
 }
 pub impl UInt16ArrayAsPointer for FixedArray[UInt16]
 
 pub(open) trait UInt64ArrayAsPointer {
   fn as_pointer(Self) -> Pointer[UInt64]
+  fn[R] with_pointer(Self, (Pointer[UInt64]) -> R) -> R
 }
 pub impl UInt64ArrayAsPointer for FixedArray[UInt64]
 
 pub(open) trait UIntArrayAsPointer {
   fn as_pointer(Self) -> Pointer[UInt]
+  fn[R] with_pointer(Self, (Pointer[UInt]) -> R) -> R
 }
 pub impl UIntArrayAsPointer for FixedArray[UInt]
 

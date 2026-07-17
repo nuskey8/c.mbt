@@ -5,7 +5,7 @@
 #include <stdint.h>
 #include <string.h>
 
-MOONBIT_FFI_EXPORT uint8_t c_mbt_test_cuint8_value(void) { return 0xff; }
+MOONBIT_FFI_EXPORT int32_t c_mbt_test_cuint8_value(void) { return 0xff; }
 MOONBIT_FFI_EXPORT int32_t c_mbt_test_cint32_value(void) { return 123; }
 
 MOONBIT_FFI_EXPORT const uint8_t *
@@ -33,7 +33,8 @@ C_MBT_DEFINE_ARRAY_POINTER(c_mbt_double_array_as_pointer, double)
 typedef int32_t (*c_mbt_test_function_pointer)(int32_t);
 
 MOONBIT_FFI_EXPORT uint32_t
-c_mbt_test_byte_array_round_trip(uint8_t *values, int32_t length) {
+c_mbt_test_byte_array_round_trip(void *values_pointer, int32_t length) {
+  uint8_t *values = values_pointer;
   uint32_t sum = 0;
   for (int32_t i = 0; i < length; ++i) {
     sum += values[i];
@@ -120,15 +121,15 @@ MOONBIT_FFI_EXPORT int32_t c_mbt_read_int8(const int8_t *pointer) {
   return *pointer;
 }
 
-MOONBIT_FFI_EXPORT uint8_t c_mbt_read_uint8(const uint8_t *pointer) {
+MOONBIT_FFI_EXPORT int32_t c_mbt_read_uint8(const uint8_t *pointer) {
   return *pointer;
 }
 
-MOONBIT_FFI_EXPORT int16_t c_mbt_read_int16(const int16_t *pointer) {
+MOONBIT_FFI_EXPORT int32_t c_mbt_read_int16(const int16_t *pointer) {
   return *pointer;
 }
 
-MOONBIT_FFI_EXPORT uint16_t c_mbt_read_uint16(const uint16_t *pointer) {
+MOONBIT_FFI_EXPORT int32_t c_mbt_read_uint16(const uint16_t *pointer) {
   return *pointer;
 }
 
@@ -160,15 +161,15 @@ MOONBIT_FFI_EXPORT void c_mbt_write_int8(int8_t *pointer, int32_t value) {
   *pointer = (int8_t)value;
 }
 
-MOONBIT_FFI_EXPORT void c_mbt_write_uint8(uint8_t *pointer, uint8_t value) {
-  *pointer = value;
+MOONBIT_FFI_EXPORT void c_mbt_write_uint8(uint8_t *pointer, int32_t value) {
+  *pointer = (uint8_t)value;
 }
 
-MOONBIT_FFI_EXPORT void c_mbt_write_int16(int16_t *pointer, int16_t value) {
+MOONBIT_FFI_EXPORT void c_mbt_write_int16(int16_t *pointer, int32_t value) {
   *pointer = (int16_t)value;
 }
 
-MOONBIT_FFI_EXPORT void c_mbt_write_uint16(uint16_t *pointer, uint16_t value) {
+MOONBIT_FFI_EXPORT void c_mbt_write_uint16(uint16_t *pointer, int32_t value) {
   *pointer = (uint16_t)value;
 }
 
@@ -229,14 +230,14 @@ MOONBIT_FFI_EXPORT int32_t c_mbt_read_char(const char *pointer) {
 MOONBIT_FFI_EXPORT int32_t c_mbt_read_signed_char(const signed char *pointer) {
   return *pointer;
 }
-MOONBIT_FFI_EXPORT uint8_t
+MOONBIT_FFI_EXPORT int32_t
 c_mbt_read_unsigned_char(const unsigned char *pointer) {
   return *pointer;
 }
-MOONBIT_FFI_EXPORT int16_t c_mbt_read_short(const short *pointer) {
+MOONBIT_FFI_EXPORT int32_t c_mbt_read_short(const short *pointer) {
   return *pointer;
 }
-MOONBIT_FFI_EXPORT uint16_t
+MOONBIT_FFI_EXPORT int32_t
 c_mbt_read_unsigned_short(const unsigned short *pointer) {
   return *pointer;
 }
@@ -285,14 +286,14 @@ MOONBIT_FFI_EXPORT void c_mbt_write_signed_char(signed char *pointer,
   *pointer = (signed char)value;
 }
 MOONBIT_FFI_EXPORT void c_mbt_write_unsigned_char(unsigned char *pointer,
-                                                  uint8_t value) {
-  *pointer = value;
+                                                  int32_t value) {
+  *pointer = (unsigned char)value;
 }
-MOONBIT_FFI_EXPORT void c_mbt_write_short(short *pointer, int16_t value) {
+MOONBIT_FFI_EXPORT void c_mbt_write_short(short *pointer, int32_t value) {
   *pointer = (short)value;
 }
 MOONBIT_FFI_EXPORT void c_mbt_write_unsigned_short(unsigned short *pointer,
-                                                    uint16_t value) {
+                                                    int32_t value) {
   *pointer = (unsigned short)value;
 }
 MOONBIT_FFI_EXPORT void c_mbt_write_int(int *pointer, int32_t value) {
@@ -334,7 +335,12 @@ MOONBIT_FFI_EXPORT void c_mbt_write_uintptr(uintptr_t *pointer,
 static int32_t c_mbt_test_int32_values[2];
 static double c_mbt_test_double_value;
 static void *c_mbt_test_pointer_value;
-static _Alignas(max_align_t) unsigned char c_mbt_test_bytes[16];
+static union {
+  uint64_t uint64_alignment;
+  double double_alignment;
+  void *pointer_alignment;
+  unsigned char bytes[16];
+} c_mbt_test_byte_storage;
 
 MOONBIT_FFI_EXPORT int32_t *c_mbt_test_int32_pointer(void) {
   return c_mbt_test_int32_values;
@@ -349,5 +355,5 @@ MOONBIT_FFI_EXPORT void **c_mbt_test_pointer_pointer(void) {
 }
 
 MOONBIT_FFI_EXPORT unsigned char *c_mbt_test_bytes_pointer(void) {
-  return c_mbt_test_bytes;
+  return c_mbt_test_byte_storage.bytes;
 }

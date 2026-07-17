@@ -18,6 +18,14 @@ extern "c" fn test_byte_array_round_trip(
 ) -> UInt = "c_mbt_test_byte_array_round_trip"
 
 ///|
+#borrow(destination, source)
+extern "c" fn test_byte_array_bulk_transform(
+  destination : Pointer[Byte],
+  source : ReadOnlyPointer[Byte],
+  length : Int,
+) -> UInt = "c_mbt_test_byte_array_bulk_transform"
+
+///|
 test "null pointers" {
   let mutable : Pointer[CInt32] = Pointer::null()
   let read_only_pointer : ReadOnlyPointer[CInt32] = ReadOnlyPointer::null()
@@ -147,6 +155,19 @@ test "byte fixed arrays expose their storage" {
 }
 
 ///|
+test "byte fixed arrays expose scoped mutable storage" {
+  let values : FixedArray[Byte] = [1, 2, 3, 4]
+  let result = ByteArrayAsPointer::with_pointer(values, pointer => {
+    pointer.add(1UL).write_uint8(20)
+    pointer.add(2UL).write_uint8(30)
+    pointer.as_readonly().read_uint8().to_uint() +
+    pointer.add(3UL).as_readonly().read_uint8().to_uint()
+  })
+  assert_eq(result, 5U)
+  assert_eq(values, [1, 20, 30, 4])
+}
+
+///|
 test "byte fixed arrays round-trip through C as contiguous uint8_t storage" {
   let values : FixedArray[Byte] = [1, 2, 3, 4, 5, 6]
   let pointer = ByteArrayAsPointer::as_pointer(values)
@@ -158,6 +179,34 @@ test "byte fixed arrays round-trip through C as contiguous uint8_t storage" {
   assert_eq(values[5], 255)
   assert_eq(pointer.as_readonly().read_uint8(), 0)
   assert_eq(pointer.add(5UL).as_readonly().read_uint8(), 255)
+}
+
+///|
+test "byte fixed-array pointers support multi-byte C reads and writes" {
+  let length = 4099
+  let source = FixedArray::make(length, b'\x00')
+  let destination = FixedArray::make(length + 2, b'\xcc')
+  let mut expected_checksum = 0U
+  for i in 0..<length {
+    source[i] = (i * 37 + 11).to_byte()
+    expected_checksum += source[i].to_uint()
+  }
+  let checksum = ByteArrayAsPointer::with_pointer(source, source_pointer => {
+    ByteArrayAsPointer::with_pointer(destination, destination_pointer => {
+      test_byte_array_bulk_transform(
+        destination_pointer.add(1UL),
+        source_pointer.as_readonly(),
+        length,
+      )
+    })
+  })
+  assert_eq(checksum, expected_checksum)
+  assert_eq(destination[0], b'\xcc')
+  assert_eq(destination[length + 1], b'\xcc')
+  for i in 0..<length {
+    assert_eq(source[i], (i * 37 + 11).to_byte())
+    assert_eq(destination[i + 1], (source[i].to_int() + i).to_byte())
+  }
 }
 
 ///|
@@ -174,16 +223,148 @@ test "16-bit fixed arrays expose their storage" {
 }
 
 ///|
+test "all scalar fixed-array conversions expose scoped storage" {
+  let ints : FixedArray[Int] = [11]
+  assert_eq(
+    IntArrayAsPointer::with_pointer(ints, pointer => {
+      pointer.as_readonly().read_int32()
+    }),
+    11,
+  )
+  let uints : FixedArray[UInt] = [12U]
+  assert_eq(
+    UIntArrayAsPointer::with_pointer(uints, pointer => {
+      pointer.as_readonly().read_uint32()
+    }),
+    12U,
+  )
+  let int16s : FixedArray[Int16] = [13]
+  assert_eq(
+    Int16ArrayAsPointer::with_pointer(int16s, pointer => {
+      pointer.as_readonly().read_int16()
+    }),
+    13,
+  )
+  let uint16s : FixedArray[UInt16] = [14]
+  assert_eq(
+    UInt16ArrayAsPointer::with_pointer(uint16s, pointer => {
+      pointer.as_readonly().read_uint16()
+    }),
+    14,
+  )
+  let int64s : FixedArray[Int64] = [15L]
+  assert_eq(
+    Int64ArrayAsPointer::with_pointer(int64s, pointer => {
+      pointer.as_readonly().read_int64()
+    }),
+    15L,
+  )
+  let uint64s : FixedArray[UInt64] = [16UL]
+  assert_eq(
+    UInt64ArrayAsPointer::with_pointer(uint64s, pointer => {
+      pointer.as_readonly().read_uint64()
+    }),
+    16UL,
+  )
+  let floats : FixedArray[Float] = [17.0]
+  assert_eq(
+    FloatArrayAsPointer::with_pointer(floats, pointer => {
+      pointer.as_readonly().read_float()
+    }),
+    17.0,
+  )
+  let doubles : FixedArray[Double] = [18.0]
+  assert_eq(
+    DoubleArrayAsPointer::with_pointer(doubles, pointer => {
+      pointer.as_readonly().read_double()
+    }),
+    18.0,
+  )
+
+  let sizes : FixedArray[CSize] = [19UL]
+  assert_eq(
+    CSizeArrayAsPointer::with_pointer(sizes, pointer => {
+      pointer.as_readonly().read_size()
+    }),
+    19UL,
+  )
+  let int8s : FixedArray[CInt8] = [20]
+  assert_eq(
+    CInt8ArrayAsPointer::with_pointer(int8s, pointer => {
+      pointer.as_readonly().read_int8()
+    }),
+    20,
+  )
+  let bools : FixedArray[CBool] = [1]
+  assert_true(
+    CBoolArrayAsPointer::with_pointer(bools, pointer => {
+      pointer.as_readonly().read_bool()
+    }),
+  )
+  let chars : FixedArray[CChar] = [65]
+  assert_eq(
+    CCharArrayAsPointer::with_pointer(chars, pointer => {
+      pointer.as_readonly().read_char()
+    }),
+    65,
+  )
+  let signed_chars : FixedArray[CSignedChar] = [21]
+  assert_eq(
+    CSignedCharArrayAsPointer::with_pointer(signed_chars, pointer => {
+      pointer.as_readonly().read_signed_char()
+    }),
+    21,
+  )
+  let longs : FixedArray[CLong] = [22]
+  assert_eq(
+    CLongArrayAsPointer::with_pointer(longs, pointer => {
+      pointer.as_readonly().read_long()
+    }),
+    22L,
+  )
+  let unsigned_longs : FixedArray[CUnsignedLong] = [23]
+  assert_eq(
+    CUnsignedLongArrayAsPointer::with_pointer(unsigned_longs, pointer => {
+      pointer.as_readonly().read_unsigned_long()
+    }),
+    23UL,
+  )
+  let ptrdiffs : FixedArray[CPtrDiff] = [24L]
+  assert_eq(
+    CPtrDiffArrayAsPointer::with_pointer(ptrdiffs, pointer => {
+      pointer.as_readonly().read_ptrdiff()
+    }),
+    24L,
+  )
+  let intptrs : FixedArray[CIntPtr] = [25L]
+  assert_eq(
+    CIntPtrArrayAsPointer::with_pointer(intptrs, pointer => {
+      pointer.as_readonly().read_intptr()
+    }),
+    25L,
+  )
+  let uintptrs : FixedArray[CUIntPtr] = [26UL]
+  assert_eq(
+    CUIntPtrArrayAsPointer::with_pointer(uintptrs, pointer => {
+      pointer.as_readonly().read_uintptr()
+    }),
+    26UL,
+  )
+}
+
+///|
 test "pointer fixed arrays expose T double-pointer storage" {
   let first = test_int32_pointer()
   let second = first.add(1UL)
   let pointers : FixedArray[Pointer[CInt32]] = [first, second]
-  let pointer : Pointer[Pointer[CInt32]] = PointerArray::as_pointer(pointers)
-  assert_eq(pointer.as_readonly().read_pointer().address(), first.address())
-  assert_eq(
-    pointer.add(1UL).as_readonly().read_pointer().address(),
-    second.address(),
-  )
+  let addresses = PointerArray::with_pointer(pointers, pointer => {
+    (
+      pointer.as_readonly().read_pointer().address(),
+      pointer.add(1UL).as_readonly().read_pointer().address(),
+    )
+  })
+  assert_eq(addresses.0, first.address())
+  assert_eq(addresses.1, second.address())
 }
 
 ///|
@@ -191,17 +372,14 @@ test "read-only pointer fixed arrays expose const T double-pointer storage" {
   let first = test_int32_pointer().as_readonly()
   let second = test_int32_pointer().add(1UL).as_readonly()
   let pointers : FixedArray[ReadOnlyPointer[CInt32]] = [first, second]
-  let pointer : Pointer[ReadOnlyPointer[CInt32]] = ReadOnlyPointerArray::as_pointer(
-    pointers,
-  )
-  assert_eq(
-    pointer.as_readonly().read_readonly_pointer().address(),
-    first.address(),
-  )
-  assert_eq(
-    pointer.add(1UL).as_readonly().read_readonly_pointer().address(),
-    second.address(),
-  )
+  let addresses = ReadOnlyPointerArray::with_pointer(pointers, pointer => {
+    (
+      pointer.as_readonly().read_readonly_pointer().address(),
+      pointer.add(1UL).as_readonly().read_readonly_pointer().address(),
+    )
+  })
+  assert_eq(addresses.0, first.address())
+  assert_eq(addresses.1, second.address())
 }
 
 ///|
@@ -310,9 +488,13 @@ test "FuncRef fixed arrays expose function-pointer storage" {
   let increment : FuncRef[(Int) -> Int] = fn(value) { value + 1 }
   let double : FuncRef[(Int) -> Int] = fn(value) { value * 2 }
   let functions : FixedArray[FuncRef[(Int) -> Int]] = [increment, double]
-  let pointer = FuncRefArray::as_pointer(functions)
-  assert_eq(test_call_function_pointer_array(pointer, 0, 41), 42)
-  assert_eq(test_call_function_pointer_array(pointer, 1, 21), 42)
+  let results = FuncRefArray::with_pointer(functions, pointer => {
+    (
+      test_call_function_pointer_array(pointer, 0, 41),
+      test_call_function_pointer_array(pointer, 1, 21),
+    )
+  })
+  assert_eq(results, (42, 42))
 }
 
 ///|

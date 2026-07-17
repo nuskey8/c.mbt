@@ -36,6 +36,17 @@ pub fn[F] FuncRefArray::as_pointer(
 ) -> Pointer[FuncRef[F]] = "%identity"
 
 ///|
+/// Borrows the array's contiguous storage for the duration of `action`.
+/// The pointer must not be retained after `action` returns.
+#borrow(value, action)
+pub fn[F, R] FuncRefArray::with_pointer(
+  value : FixedArray[FuncRef[F]],
+  action : (Pointer[FuncRef[F]]) -> R,
+) -> R {
+  action(FuncRefArray::as_pointer(value))
+}
+
+///|
 pub impl[F] SizeOf for FuncRef[F] with fn size_of() {
   sizeof_pointer_raw()
 }

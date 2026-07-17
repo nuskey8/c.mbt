@@ -46,6 +46,19 @@ c_mbt_test_byte_array_round_trip(uint8_t *values, int32_t length) {
   return sum;
 }
 
+MOONBIT_FFI_EXPORT uint32_t
+c_mbt_test_byte_array_bulk_transform(void *destination, const void *source,
+                                     int32_t length) {
+  uint8_t *destination_bytes = destination;
+  const uint8_t *source_bytes = source;
+  uint32_t sum = 0;
+  for (int32_t i = 0; i < length; ++i) {
+    sum += source_bytes[i];
+    destination_bytes[i] = (uint8_t)(source_bytes[i] + (uint8_t)i);
+  }
+  return sum;
+}
+
 MOONBIT_FFI_EXPORT void *c_mbt_test_function_pointer_as_void_pointer(
     c_mbt_test_function_pointer function) {
   return (void *)function;
